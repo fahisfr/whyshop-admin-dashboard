@@ -1,0 +1,110 @@
+.orders_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+
+  background-color: #f4f3f4;
+}
+.os_right {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  flex-grow: 1;
+  padding: 1rem;
+}
+.os_filter {
+  width: 100%;
+  height: 3.5rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.os_table_wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  background-color: white;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+}
+.table thead tr th {
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-align: start;
+  border: 1px solid #f0f3f4;
+  border-left: none;
+  border-right: none;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.table tbody tr {
+  overflow: scroll;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(6, 92, 3, 0.1);
+  background-color: #ffffff;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-width: 1px;
+  padding: 1rem 1.5rem;
+}
+.os_products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  max-width: 22rem;
+}
+.order_product_imgs {
+  width: 100%;
+  height: 100%;
+  padding: 0 4px;
+  display: flex;
+  overflow: auto;
+}
+
+.product_img {
+  min-width: 4rem;
+  min-height: 4rem;
+  position: relative;
+}
+.cod {
+  background-color: #ffeece;
+  word-break: break-all;
+  padding: 7px;
+  color: orange;
+  border-radius: 10px;
+}
+.paid {
+  padding: 8px;
+  color: #1add8f;
+  border-radius: 10px;
+  background-color: #d8f0e6;
+}
+.date {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.price {
+  color: rgba(0, 0, 0, 0.7);
+}
+.order_status {
+  color: black;
+  background: linear-gradient(to left, rgba(0, 128, 0, 0.849), #29c029);
+  padding: 7px;
+  border-radius: 8px;
+  color: #ffffff;
+}
+.icon_paid {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+}
+.icon_not_paid {
+  font-size: 1.3rem;
+  color: red;
+}

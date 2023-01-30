@@ -1,0 +1,118 @@
+.products_container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f0f3f4;
+}
+
+.pt_left {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 1rem;
+
+}
+
+.pt_filter {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+}
+.pt_select {
+  border-radius: 10px;
+
+  margin-bottom: 103px;
+  outline: none;
+}
+.pt_option {
+  padding: 15px;
+  border: none;
+}
+.pt_search {
+  display: flex;
+}
+
+.products_table_wrapper {
+  width: 100%;
+  max-height: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+}
+
+.thead tr th {
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-align: start;
+  border: 1px solid #f0f3f4;
+  border-left: none;
+  border-right: none;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tbody tr {
+  overflow: scroll;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(6, 92, 3, 0.1);
+  background-color: #ffffff;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-width: 1px;
+  padding: 1rem 1.5rem;
+}
+.pt_img_wrapper {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+}
+
+.btn {
+  margin-left: 5px;
+  padding: 5px 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.icon_edit {
+  color: green;
+  font-size: 1.2rem;
+}
+.icon_delete {
+  color: red;
+  font-size: 1.3rem;
+}
+.name {
+  font-weight: 500;
+}
+.name::first-letter {
+  text-transform: capitalize;
+}
+.category {
+  padding: 5px;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 13px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  background-color: rgb(15, 128, 0);
+}
+
+.price,
+.quantity {
+  color: rgba(0, 0, 0, 0.7);
+}
