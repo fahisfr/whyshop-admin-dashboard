@@ -2,7 +2,6 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-
   background-color: var(--bg-secondary);
 }
 .right {
@@ -53,7 +52,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border: 1px solid #dfdfdf;
+  border: 1px solid #cccccc;
   border-radius: 3px;
 }
 .dv1 {
@@ -61,6 +60,4 @@
   font-size: 15px;
 }
 .dv2 {
-  
 }
-

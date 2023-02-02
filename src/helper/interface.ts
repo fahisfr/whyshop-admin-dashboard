@@ -22,3 +22,8 @@ export interface Order {
   orderStatus: string;
   orderAt: string;
 }
+
+export interface Option {
+  value: string;
+  label: string;
+}

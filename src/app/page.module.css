@@ -1,5 +1,47 @@
 .home_container {
-  background-color: #f0f3f4;
   width: 100%;
   height: 100%;
+  display: flex;
+}
+
+.content {
+  flex-grow: 1;
+  background-color: var(--bg-secondary);
+}
+
+.mean_info {
+  width: 10rem;
+  display: flex;
+  gap: 5px;
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+}
+.cp_group {
+  display: grid;
+  background-color: var(--primary-color);
+  padding: 14px;
+  align-items: center;
+  border-radius: 8px;
+  color: white;
+  gap: 5px 10px;
+  grid-template-areas:
+    "cp_icon cp_text"
+    "cp_icon cp_count";
+}
+
+.cp_icon {
+  background-color: initial;
+  font-size: 2rem;
+  grid-area: cp_icon;
+}
+
+.cp_text {
+  background-color: initial;
+  grid-area: cp_text;
+}
+
+.cp_count {
+  background-color: initial;
+  grid-area: cp_count;
+  font-size: large;
 }

@@ -1,8 +1,6 @@
 import React, {  useRef, useState } from "react";
 import css from "./css.module.css";
 import Image from "next/image";
-import { imageUrl } from "@/helper/axios";
-import { Product as ProductInterface } from "@/helper/interface";
 import Select from "../select/Select";
 import { BiImageAdd } from "react-icons/bi";
 const options = [
@@ -16,13 +14,13 @@ interface Image {
   preview: string;
 }
 
-export default function Product({ product }: { product: ProductInterface }) {
+export default function Product() {
   const imageInputRef = useRef<HTMLInputElement>();
   const [newProductInfo, setNewProductInfo] = useState({
-    name: product.name,
-    category: product.category,
-    price: product.price,
-    quantity: product.quantity,
+    name: "",
+    category: "",
+    price: 0,
+    quantity: 0,
   });
   const [newImage, setnewImage] = useState<Image>({
     file: null,
@@ -64,18 +62,10 @@ export default function Product({ product }: { product: ProductInterface }) {
               imageInputRef.current?.click();
             }}
           >
-            {" "}
             <BiImageAdd className={css.icon_img_add} />
-            <Image
-              fill
-              alt=""
-              objectFit="contain"
-              src={
-                newImage.preview
-                  ? newImage.preview
-                  : `${imageUrl}/${product.imageName}.jpg`
-              }
-            />{" "}
+            {newImage.preview && (
+              <Image fill alt="" objectFit="contain" src={newImage.preview} />
+            )}
             <input
               type="file"
               ref={imageInputRef}
@@ -84,7 +74,7 @@ export default function Product({ product }: { product: ProductInterface }) {
             />
           </div>
         </div>
-        <div className={css.pt_info}>
+        <form className={css.pt_info}>
           <div className={css.pt_group}>
             <label className={css.pt_label}>Name</label>
             <input
@@ -121,10 +111,10 @@ export default function Product({ product }: { product: ProductInterface }) {
           <div className={`${css.pt_bottom} ${btnLoading && "btn-loading"}`}>
             <button className={css.cancel_btn}>Cancel</button>
             <button className={`${css.save_btn} btn`}>
-              <span className="btn-text">Save</span>
+              <span className="btn-text">Add</span>
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

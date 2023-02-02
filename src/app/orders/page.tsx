@@ -9,19 +9,21 @@ import { AiOutlineEdit } from "react-icons/ai";
 import productsStyles from "../products/css.module.css";
 import Link from "next/link";
 
+
 async function getOrders() {
   const res = await (await fetch(`${baseUrl}/api/order/all-orders`)).json();
   return res.orders;
 }
 
 export default async function orders() {
-  
   const orders: Order[] = await getOrders();
   return (
     <div className={styles.orders_container}>
       <NavBar />
       <div className={styles.os_right}>
-        <div className={styles.os_filter}></div>
+        <div className={styles.os_filter}>
+         
+        </div>
         <div className={styles.os_table_wrapper}>
           <table className={styles.table}>
             <thead>

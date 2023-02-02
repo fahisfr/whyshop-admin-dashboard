@@ -6,11 +6,19 @@ import Image from "next/image";
 import { Product as ProductInterface } from "@/helper/interface";
 import Product from "@/components/product/Product";
 import { useEffect, useState } from "react";
+import Select from "@/components/select/Select";
+import AddProduct from "@/components/product/AddProduct";
+const options = [
+  { value: "Vegetable", label: "Vegetable" },
+  { value: "fruits", label: "Fruits" },
+  { value: "sweets", label: "Fweets" },
+];
 
 const BACKEND_URL = process.env.BACKEND_URL;
 export default function page() {
   const [products, setProducts] = useState<ProductInterface[]>([]);
   const [product, setProduct] = useState<ProductInterface>();
+  const [addProduct, setAddProduct] = useState<boolean>(false);
   useEffect(() => {
     async function fetchData() {
       const res = await (
@@ -25,16 +33,24 @@ export default function page() {
   return (
     <div className={styles.products_container}>
       <NavBar />
-      {product?.name && <Product product={product} />}
-      <div className={styles.pt_left}>
-        <div className={styles.pt_filter}>
-          <div className={styles.select_wrapper}>
-            {/* <Select options={options} className={styles.pt_select} /> */}
+      {product && <Product product={product} />}
+      {addProduct && <AddProduct />}
+      <div className={styles.left}>
+        <div className={styles.filter}>
+          <div className={styles.select_cotegory}>
+            <Select options={options} placeHolder="select Catgory" />
           </div>
-          <div className={styles.pt_search}>
-            <input />
-            <AiOutlineSearch />
+
+          <div className={styles.search}>
+            <input placeholder="Search..." />
+            <AiOutlineSearch className={styles.icon_search} />
           </div>
+          <button
+            onClick={() => setAddProduct(true)}
+            className={styles.add_product_btn}
+          >
+            Add Product
+          </button>
         </div>
 
         <div className={styles.products_table_wrapper}>
@@ -52,11 +68,7 @@ export default function page() {
             <tbody className={styles.tbody}>
               {products.map((product, index) => {
                 return (
-                  <tr
-                    onClick={() => {
-                      setProduct(product);
-                    }}
-                  >
+                  <tr>
                     <td>
                       <div className={styles.pt_img_wrapper}>
                         <Image
@@ -86,7 +98,12 @@ export default function page() {
                     </td>
                     <td>
                       <div className={styles.btn_wrapper}>
-                        <button className={styles.btn}>
+                        <button
+                          className={styles.btn}
+                          onClick={() => {
+                            setProduct(product);
+                          }}
+                        >
                           <AiOutlineEdit className={styles.icon_edit} />
                         </button>
                         <button className={styles.btn}>
