@@ -1,4 +1,13 @@
+export interface User {
+  sidePopUpMessage: {
+    trigger: boolean;
+    error: boolean;
+    message: string;
+  };
+}
+
 export interface Product {
+  _id: any;
   name: string;
   price: number;
   quantity: number;

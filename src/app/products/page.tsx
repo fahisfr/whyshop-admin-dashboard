@@ -1,24 +1,19 @@
 "use client";
 import styles from "./css.module.css";
-import { AiFillDelete, AiOutlineSearch, AiOutlineEdit } from "react-icons/ai";
+import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import NavBar from "@/components/navBar/NavBar";
 import Image from "next/image";
 import { Product as ProductInterface } from "@/helper/interface";
-import Product from "@/components/product/Product";
 import { useEffect, useState } from "react";
-import Select from "@/components/select/Select";
-import AddProduct from "@/components/product/AddProduct";
-const options = [
-  { value: "Vegetable", label: "Vegetable" },
-  { value: "fruits", label: "Fruits" },
-  { value: "sweets", label: "Fweets" },
-];
+import ProductsFilterBar from "@/components/filterBar/ProductsFilterBar";
 
 const BACKEND_URL = process.env.BACKEND_URL;
-export default function page() {
+export default function Page() {
   const [products, setProducts] = useState<ProductInterface[]>([]);
-  const [product, setProduct] = useState<ProductInterface>();
-  const [addProduct, setAddProduct] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState<ProductInterface[]>(
+    []
+  );
+
   useEffect(() => {
     async function fetchData() {
       const res = await (
@@ -33,26 +28,11 @@ export default function page() {
   return (
     <div className={styles.products_container}>
       <NavBar />
-      {product && <Product product={product} />}
-      {addProduct && <AddProduct />}
       <div className={styles.left}>
-        <div className={styles.filter}>
-          <div className={styles.select_cotegory}>
-            <Select options={options} placeHolder="select Catgory" />
-          </div>
-
-          <div className={styles.search}>
-            <input placeholder="Search..." />
-            <AiOutlineSearch className={styles.icon_search} />
-          </div>
-          <button
-            onClick={() => setAddProduct(true)}
-            className={styles.add_product_btn}
-          >
-            Add Product
-          </button>
-        </div>
-
+        <ProductsFilterBar
+          products={products}
+          setFilteredProducts={setFilteredProducts}
+        />
         <div className={styles.products_table_wrapper}>
           <table className={styles.table}>
             <thead className={styles.thead}>
@@ -66,7 +46,7 @@ export default function page() {
               </tr>
             </thead>
             <tbody className={styles.tbody}>
-              {products.map((product, index) => {
+              {filteredProducts.map((product, setFilteredProductsex) => {
                 return (
                   <tr>
                     <td>
@@ -81,7 +61,7 @@ export default function page() {
                       </div>
                     </td>
                     <td>
-                      <h4 className={styles.name}>{product.name}</h4>
+                      <span className={styles.name}>{product.name}</span>
                     </td>
                     <td>
                       <span className={styles.category}>

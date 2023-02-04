@@ -52,6 +52,9 @@ export default function Product() {
 
   const [btnLoading, setBtnLoading] = useState(false);
 
+
+  
+
   return (
     <div className={css.product_container}>
       <div className={css.body}>

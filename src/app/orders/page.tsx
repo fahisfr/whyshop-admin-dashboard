@@ -1,29 +1,53 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import NavBar from "@/components/navBar/NavBar";
 import styles from "./css.module.css";
 import { Order } from "@/helper/interface";
 import Image from "next/image";
 import { baseUrl, imageUrl } from "@/helper/axios";
 import getDate from "@/helper/getDate";
-import { AiOutlineEdit } from "react-icons/ai";
 import productsStyles from "../products/css.module.css";
 import Link from "next/link";
+import { AiOutlineEdit } from "react-icons/ai";
+import { BsFillCheckCircleFill, BsXCircleFill } from "react-icons/bs";
+import OrdersFilterBar from "@/components/filterBar/OrdersFilterBar";
+const options = [
+  {
+    value: "all",
+    label: "All",
+  },
+  {
+    value: "code",
+    label: "chash on delivery",
+  },
+  {
+    value: "padi",
+    label: "Padi",
+  },
+];
 
+export default function Orders() {
+  const [orders, setOroders] = useState<Order[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
-async function getOrders() {
-  const res = await (await fetch(`${baseUrl}/api/order/all-orders`)).json();
-  return res.orders;
-}
+  useEffect(() => {
+    async function fetchData() {
+      const res = await (await fetch(`${baseUrl}/api/order/all-orders`)).json();
 
-export default async function orders() {
-  const orders: Order[] = await getOrders();
+      setOroders(await res.orders);
+    }
+    fetchData();
+  }, []);
+  console.log(orders);
+
   return (
     <div className={styles.orders_container}>
       <NavBar />
       <div className={styles.os_right}>
-        <div className={styles.os_filter}>
-         
-        </div>
+        <OrdersFilterBar
+          orders={orders}
+          setFilteredOrders={setFilteredOrders}
+        />
         <div className={styles.os_table_wrapper}>
           <table className={styles.table}>
             <thead>
@@ -32,12 +56,13 @@ export default async function orders() {
                 <th>Date</th>
                 <th>Price</th>
                 <th>Payment Type</th>
-                <th>OrderStat sus</th>
+                <th>Peyment Status</th>
+                <th>Order Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order, index) => {
+              {filteredOrders.map((order, index) => {
                 return (
                   <tr key={index}>
                     <td className={styles.os_products}>
@@ -66,9 +91,16 @@ export default async function orders() {
                     </td>
                     <td>
                       {order.paymentType === "online" ? (
-                        <span className={styles.paid}>Paid</span>
+                        <span className={styles.online}>Online</span>
                       ) : (
                         <span className={styles.cod}>Cod</span>
+                      )}
+                    </td>
+                    <td>
+                      {order.paymentStatus === "paid" ? (
+                        <BsFillCheckCircleFill className={styles.icon_paid} />
+                      ) : (
+                        <BsXCircleFill className={styles.icon_not_paid} />
                       )}
                     </td>
                     <td>

@@ -1,25 +1,21 @@
+"use client";
 import React, { useState } from "react";
 import styles from "../select/css.module.css";
 import { Option } from "@/helper/interface";
 import { BsChevronDown } from "react-icons/bs";
 interface SelectProps {
   options: Option[];
-  placeHolder?: string;
   onSelect: (value: string) => void;
 }
 
-export default function Select({
-  options,
-  onSelect,
-  placeHolder,
-}: SelectProps) {
+export default function Select({ options, onSelect }: SelectProps) {
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
 
-  const handleOptionSelection = (option: string) => {
+  const handleOptionSelection = (option: Option) => {
     setShowOptions(false);
     setSelectedOption(option);
-    onSelect(option);
+    onSelect(option.value);
   };
 
   return (
@@ -28,7 +24,11 @@ export default function Select({
         className={styles.select_btn}
         onClick={() => setShowOptions(!showOptions)}
       >
-        {selectedOption ? <span>{selectedOption}</span> : <span>Select..</span>}
+        {
+          <span>
+            {selectedOption ? selectedOption.label : options[0].label}
+          </span>
+        }
         <BsChevronDown />
       </div>
       {showOptions && (
@@ -38,7 +38,7 @@ export default function Select({
               <div
                 className={styles.option}
                 key={index}
-                onClick={() => handleOptionSelection(option.value)}
+                onClick={() => handleOptionSelection(option)}
               >
                 <span className={styles.option_text}>{option.label}</span>
               </div>
