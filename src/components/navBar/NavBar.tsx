@@ -18,19 +18,18 @@ export default function NavBar() {
           </div>
         </Link>
         <Link href="/products">
-          {" "}
           <div className={styles.nb_group}>
             <GrShop className={styles.nb_icon} />
             <span className={styles.nb_text}>Products</span>
           </div>
-        </Link>{" "}
+        </Link>
         <Link href="/orders">
-          {" "}
+ 
           <div className={styles.nb_group}>
             <BsFillCartPlusFill className={styles.nb_icon} />
             <span className={styles.nb_text}>Orders</span>
           </div>
-        </Link>{" "}
+        </Link>
         <div className={styles.nb_group}>
           <BsFillCartPlusFill className={styles.nb_icon} />
           <span className={styles.nb_text}>Censaled Orders</span>

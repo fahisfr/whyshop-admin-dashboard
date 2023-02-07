@@ -1,20 +1,27 @@
+"use client";
 import NavBar from "@/components/navBar/NavBar";
-import { baseUrl, imageUrl } from "@/helper/axios";
-import { Order } from "@/helper/interface";
+import { imageUrl } from "@/helper/axios";
 import React from "react";
 import styles from "./css.module.css";
 import Image from "next/image";
 import getDate from "@/helper/getDate";
-async function getOrder() {
-  const res = await (
-    await fetch(`${baseUrl}/api/order/63d7672de1fcb4b064f801ea`)
-  ).json();
+import axios from "@/helper/axios";
+import { useQuery } from "react-query";
+import { Product } from "@/helper/interface";
 
-  return res.order;
-}
+export default function Page({ params: { id } }) {
+  const fetchOrder = async () => {
+    const { data } = await axios(`/order/${id}`);
+    return data;
+  };
+  const { isError, isLoading, data, error } = useQuery(
+    ["order", id],
+    fetchOrder
+  );
+  if (isLoading) {
+    return <div>loading</div>;
+  }
 
-export default async function Page() {
-  const order: Order = await getOrder();
   return (
     <div className={styles.order_container}>
       <NavBar />
@@ -29,7 +36,7 @@ export default async function Page() {
               </tr>
             </thead>
             <tbody>
-              {order.products.map((product, index) => {
+              {data.order.products.map((product: Product, index: number) => {
                 return (
                   <tr>
                     <td className={styles.product_name_wrapper}>
@@ -59,29 +66,27 @@ export default async function Page() {
         <div className={styles.order_info}>
           <div className={styles.dv}>
             <span className={styles.dv1}>ID</span>
-            <span className={styles.dv2}>{order._id}</span>
+            <span className={styles.dv2}>{data.order._id}</span>
           </div>
           <div className={styles.dv}>
             <span className={styles.dv1}>Payment Type</span>
-            <span className={`${styles.dv2}`}>
-              {order.paymentType}
-            </span>
+            <span className={`${styles.dv2}`}>{data.order.paymentType}</span>
           </div>
           <div className={styles.dv}>
             <span className={styles.dv1}>Payment Status</span>
-            <span className={styles.dv2}>{order.paymentStatus}</span>
+            <span className={styles.dv2}>{data.order.paymentStatus}</span>
           </div>
           <div className={styles.dv}>
             <span className={styles.dv1}>Total Price</span>
-            <span className={styles.dv2}>₹{order.totalPrice}</span>
+            <span className={styles.dv2}>₹{data.order.totalPrice}</span>
           </div>
           <div className={styles.dv}>
             <span className={styles.dv1}>Payment Id</span>
-            <span className={styles.dv2}>{order.paymentId}</span>
+            <span className={styles.dv2}>{data.order.paymentId}</span>
           </div>
           <div className={styles.dv}>
             <span className={styles.dv1}>OrderAt</span>
-            <span className={styles.dv2}>{getDate(order.orderAt)}</span>
+            <span className={styles.dv2}>{getDate(data.order.orderAt)}</span>
           </div>
         </div>
       </div>

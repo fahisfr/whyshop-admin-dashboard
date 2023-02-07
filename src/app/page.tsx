@@ -1,28 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import styles from "./page.module.css";
 import NavBar from "@/components/navBar/NavBar";
 import { FiUsers } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import LineBar from "@/components/LineBar/LIneBar";
 
 const labels = ["January", "February", "March", "April", "May", "June"];
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: "My First dataset",
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgb(255, 99, 132)",
-      data: [0, 10, 5, 2, 20, 30, 45],
-    },
-  ],
-};
-export default function Home() {
-  const [orders, setOrders] = useState([]);
 
+export default function Home() {
   return (
     <div className={styles.home_container}>
-      <NavBar />
+      <NavBar /> <div ></div>
       <div className={styles.content}>
         <div className={styles.mean_info}>
           <div className={styles.cp_group}>
@@ -42,9 +31,9 @@ export default function Home() {
             <span className={styles.cp_text}>Products</span>
             <span className={styles.cp_count}>49</span>
           </div>
-        </div>
+        </div>{" "}
+        <LineBar />
       </div>{" "}
-     
     </div>
   );
 }

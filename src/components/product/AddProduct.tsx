@@ -1,8 +1,9 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import css from "./css.module.css";
 import Image from "next/image";
 import Select from "../select/Select";
 import { BiImageAdd } from "react-icons/bi";
+import axios from "axios";
 const options = [
   { value: "Vegetable", label: "Vegetable" },
   { value: "fruits", label: "Fruits" },
@@ -27,6 +28,13 @@ export default function Product() {
     preview: "",
   });
 
+  const addProduct = async () => {
+    const { data } = await axios.post("/product/add-product");
+    return data;
+  };
+
+  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewProductInfo({
       ...newProductInfo,
@@ -49,12 +57,6 @@ export default function Product() {
 
     reader.readAsDataURL(file);
   };
-
-  const [btnLoading, setBtnLoading] = useState(false);
-
-
-  
-
   return (
     <div className={css.product_container}>
       <div className={css.body}>
