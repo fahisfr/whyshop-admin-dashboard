@@ -36,3 +36,8 @@ export interface Option {
   value: string;
   label: string;
 }
+
+export interface Image {
+  file: File | null;
+  preview: string;
+}

@@ -6,9 +6,16 @@ import { BsChevronDown } from "react-icons/bs";
 interface SelectProps {
   options: Option[];
   onSelect: (value: string) => void;
+  placeHolder?: string;
+  defaultOptionIndex?: number;
 }
 
-export default function Select({ options, onSelect }: SelectProps) {
+export default function Select({
+  options,
+  onSelect,
+  placeHolder = "Select...",
+  defaultOptionIndex,
+}: SelectProps) {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
 
@@ -24,11 +31,11 @@ export default function Select({ options, onSelect }: SelectProps) {
         className={styles.select_btn}
         onClick={() => setShowOptions(!showOptions)}
       >
-        {
-          <span>
-            {selectedOption ? selectedOption.label : options[0].label}
-          </span>
-        }
+        {defaultOptionIndex ? (
+          <span>{options[defaultOptionIndex].label}</span>
+        ) : (
+          <span className={styles.place_holder}>{placeHolder}</span>
+        )}
         <BsChevronDown />
       </div>
       {showOptions && (

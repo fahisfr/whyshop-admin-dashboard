@@ -4,7 +4,7 @@ import NavBar from "@/components/navBar/NavBar";
 import styles from "./css.module.css";
 import { Order } from "@/helper/interface";
 import Image from "next/image";
-import {  imageUrl } from "@/helper/axios";
+import { imageUrl } from "@/helper/axios";
 import getDate from "@/helper/getDate";
 import productsStyles from "../products/css.module.css";
 import Link from "next/link";
@@ -30,20 +30,26 @@ const options = [
 ];
 
 export default function Orders() {
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const fetchOrders = async () => {
     const { data } = await axios("/order/all-orders");
     return data;
   };
 
-  const { isError, isLoading, data } = useQuery("orders", fetchOrders);
+  const { isError, isLoading, data } = useQuery("orders", fetchOrders, {
+    onSuccess: (result) => {
+      if (result.status === "ok") {
+        setOrders(result.orders);
+      }
+    },
+  });
 
   return (
     <div className={styles.orders_container}>
       <NavBar />
       <div className={styles.os_right}>
-        <OrdersFilterBar orders={[]} setFilteredOrders={setFilteredOrders} />
+        <OrdersFilterBar orders={data?.orders} setFilteredOrders={setOrders} />
         <div className={styles.os_table_wrapper}>
           <table className={styles.table}>
             <thead>
@@ -61,7 +67,7 @@ export default function Orders() {
               {isLoading ? (
                 <TableBody colCount={6} />
               ) : (
-                data.orders.map((order: Order, index: number) => {
+                orders.map((order: Order, index: number) => {
                   return (
                     <tr key={index}>
                       <td className={styles.os_products}>

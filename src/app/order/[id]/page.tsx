@@ -9,7 +9,13 @@ import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import { Product } from "@/helper/interface";
 
-export default function Page({ params: { id } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Page({ params: { id } }: PageProps) {
   const fetchOrder = async () => {
     const { data } = await axios(`/order/${id}`);
     return data;

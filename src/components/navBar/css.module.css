@@ -4,6 +4,7 @@
   background-color: var(--bg-primary);
   padding: 10px 15px;
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   justify-content: space-between;
 }

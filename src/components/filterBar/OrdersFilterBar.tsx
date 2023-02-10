@@ -10,8 +10,6 @@ const paymentOptions = [
   { value: "online", label: "Online Payment" },
 ];
 
-
-
 interface FilterBarProps {
   orders: Order[];
   setFilteredOrders: React.Dispatch<React.SetStateAction<Order[]>>;
@@ -21,37 +19,34 @@ export default function ProductsFilterBar({
   orders,
   setFilteredOrders,
 }: FilterBarProps) {
-  const [searchText, setSearchText] = useState<string>("");
   const [searchOrderId, setSearchOorderId] = useState<string>("");
   const [selecedPaymentType, setSelecedPaymentType] = useState<string>("all");
-  const [selecedOrderType, setSelecedOrderType] = useState<string>("all");
+
   useEffect(() => {
-    let newOrdersArry = orders;
+    let filterdOrders = orders;
     if (searchOrderId) {
-      newOrdersArry = newOrdersArry.filter((order) =>
-        order.paymentId?.includes(searchOrderId)
+      filterdOrders = filterdOrders.filter((order) =>
+        order._id?.includes(searchOrderId)
       );
     }
     if (selecedPaymentType !== "all") {
-      newOrdersArry = newOrdersArry.filter(
+      filterdOrders = filterdOrders.filter(
         (order) => order.paymentType === selecedPaymentType
       );
     }
 
-  
-
-    setFilteredOrders(newOrdersArry);
-  }, [searchText, selecedPaymentType, orders]);
+    setFilteredOrders(filterdOrders);
+  }, [searchOrderId, selecedPaymentType, orders]);
 
   return (
     <div className={styles.filter}>
       <div className={styles.select_wrapper}>
         <Select options={paymentOptions} onSelect={setSelecedPaymentType} />
       </div>
- 
+
       <div className={styles.search}>
         <input
-          placeholder="Search..."
+          placeholder="Search order id ..."
           onChange={(e) => setSearchOorderId(e.target.value)}
         />
         <AiOutlineSearch className={styles.icon_search} />

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Product } from "@/helper/interface";
 import Select from "@/components/select/Select";
 import { AiOutlineSearch } from "react-icons/ai";
+import Link from "next/link";
 
 const options = [
   { value: "all", label: "all" },
@@ -13,37 +14,42 @@ const options = [
 
 interface FilterBarProps {
   products: Product[];
-  setFilteredProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
 export default function ProductsFilterBar({
   products,
-  setFilteredProducts,
+  setProducts,
 }: FilterBarProps) {
   const [searchText, setSearchText] = useState<string>("");
   const [selecedCategory, setSelecedCategory] = useState<string>("all");
   useEffect(() => {
-    let newProducts = products;
+    let productsFiliterd = products;
 
     if (selecedCategory !== "all") {
-      newProducts = products.filter((product) => {
+      productsFiliterd = products.filter((product) => {
         return product.category === selecedCategory;
       });
     }
     if (searchText) {
-      newProducts = newProducts.filter((product) => {
+      productsFiliterd = productsFiliterd.filter((product) => {
         return product.name
           .toLocaleLowerCase()
           .includes(searchText.toLocaleLowerCase());
       });
     }
-    setFilteredProducts(newProducts);
+
+    setProducts(productsFiliterd);
   }, [searchText, selecedCategory, products]);
 
   return (
     <div className={styles.filter}>
       <div className={styles.select_wrapper}>
-        <Select options={options} onSelect={setSelecedCategory} />
+        <Select
+          options={options}
+          onSelect={setSelecedCategory}
+          defaultOptionIndex={1}
+        />
       </div>
       <div className={styles.search}>
         <input
@@ -52,7 +58,9 @@ export default function ProductsFilterBar({
         />
         <AiOutlineSearch className={styles.icon_search} />
       </div>
-      <button className={styles.add_product_btn}>Add Product</button>
+      <Link href="/products/addProduct">
+        <button className={styles.add_product_btn}>Add Product</button>
+      </Link>
     </div>
   );
 }

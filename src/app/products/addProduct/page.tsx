@@ -1,39 +1,38 @@
+"use client";
 import React, { useRef, useState } from "react";
-import css from "./css.module.css";
+import css from "../css.module.css";
 import Image from "next/image";
-import Select from "../select/Select";
+import Select from "@/components/select/Select";
 import { BiImageAdd } from "react-icons/bi";
 import axios from "axios";
+import { Image as Img } from "@/helper/interface";
+import Link from "next/link";
 const options = [
   { value: "Vegetable", label: "Vegetable" },
   { value: "fruits", label: "Fruits" },
   { value: "sweets", label: "Fweets" },
 ];
 
-interface Image {
-  file: File | null;
-  preview: string;
-}
-
-export default function Product() {
-  const imageInputRef = useRef<HTMLInputElement>();
+export default function Page() {
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const [btnLoading, setLoading] = useState<boolean>(false);
   const [newProductInfo, setNewProductInfo] = useState({
     name: "",
     category: "",
     price: 0,
     quantity: 0,
   });
-  const [newImage, setnewImage] = useState<Image>({
+  const [newImage, setnewImage] = useState<Img>({
     file: null,
     preview: "",
   });
 
   const addProduct = async () => {
     const { data } = await axios.post("/product/add-product");
-    return data;
+    if (data.status === "ok") {
+    } else if (data.status === "error") {
+    }
   };
-
-  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewProductInfo({
@@ -42,7 +41,7 @@ export default function Product() {
     });
   };
 
-  const handleImageInputRefChange = (
+  const handleImageInputRefOneChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (!e.target.files) return;
@@ -57,24 +56,34 @@ export default function Product() {
 
     reader.readAsDataURL(file);
   };
+
+  const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log(e.dataTransfer.files);
+  };
+
   return (
     <div className={css.product_container}>
       <div className={css.body}>
         <div className={css.pt_img}>
           <div
+            onDrop={handleOnDrop}
             className={css.img_wrapper}
             onClick={() => {
               imageInputRef.current?.click();
             }}
           >
-            <BiImageAdd className={css.icon_img_add} />
-            {newImage.preview && (
+            {newImage.preview ? (
               <Image fill alt="" objectFit="contain" src={newImage.preview} />
+            ) : (
+              <div className={css.drop_file}>
+                <BiImageAdd className={css.icon_img_add} />
+                <span>Drag-drop or click herer to choose a file</span>
+              </div>
             )}
             <input
               type="file"
               ref={imageInputRef}
-              onChange={handleImageInputRefChange}
+              onChange={handleImageInputRefOneChange}
               style={{ display: "none" }}
             />
           </div>
@@ -91,7 +100,11 @@ export default function Product() {
           </div>
           <div className={css.pt_group}>
             <label>Category</label>
-            <Select options={options} onSelect={(value: string) => {}} />
+            <Select
+              options={options}
+              onSelect={(value: string) => {}}
+              placeHolder="Select Catgeory..."
+            />
           </div>
           <div className={css.pt_group}>
             <label className={css.pt_label}>Price</label>
@@ -114,7 +127,10 @@ export default function Product() {
             />
           </div>
           <div className={`${css.pt_bottom} ${btnLoading && "btn-loading"}`}>
-            <button className={css.cancel_btn}>Cancel</button>
+            <Link href="/products">
+              <button className={css.cancel_btn}>Cancel</button>
+            </Link>
+
             <button className={`${css.save_btn} btn`}>
               <span className="btn-text">Add</span>
             </button>

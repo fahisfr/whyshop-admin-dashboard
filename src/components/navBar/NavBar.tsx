@@ -11,9 +11,9 @@ export default function NavBar() {
         <h1 className={styles.nb_title}>WhyShop Admin</h1>
       </div>
       <div className={styles.nb_center}>
-        <Link href="/">
+        <Link href={"/"}>
           <div className={styles.nb_group}>
-            <RxDashboard className={styles.nb_icon} />
+            <RxDashboard className={styles.nb_icon} />{" "}
             <span className={styles.nb_text}>DashBoard</span>
           </div>
         </Link>
@@ -24,7 +24,6 @@ export default function NavBar() {
           </div>
         </Link>
         <Link href="/orders">
- 
           <div className={styles.nb_group}>
             <BsFillCartPlusFill className={styles.nb_icon} />
             <span className={styles.nb_text}>Orders</span>

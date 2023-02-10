@@ -11,7 +11,7 @@ export default function TableBody({
       {new Array(rowCount).fill(1).map((item, index) => {
         return (
           <tr key={index}>
-            {new Array(colCount).fill(1).map((item, indx) => {
+            {new Array(colCount).fill(1).map((item, index) => {
               return (
                 <td key={index}>
                   <div className="os-td-skeleton skeleton"></div>
