@@ -48,7 +48,7 @@ export default function ProductsFilterBar({
         <Select
           options={options}
           onSelect={setSelecedCategory}
-          defaultOptionIndex={1}
+          defaultOptionIndex={0}
         />
       </div>
       <div className={styles.search}>

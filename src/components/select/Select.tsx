@@ -31,7 +31,9 @@ export default function Select({
         className={styles.select_btn}
         onClick={() => setShowOptions(!showOptions)}
       >
-        {defaultOptionIndex ? (
+        {selectedOption ? (
+          <span>{selectedOption.label}</span>
+        ) : defaultOptionIndex !== undefined ? (
           <span>{options[defaultOptionIndex].label}</span>
         ) : (
           <span className={styles.place_holder}>{placeHolder}</span>

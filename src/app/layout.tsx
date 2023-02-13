@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import ReactQueryWrapper from "@/helper/ReactQueryWrapper";
+import NavBar from "@/components/navBar/NavBar";
 
 export default function RootLayout({
   children,
@@ -11,7 +12,12 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <ReactQueryWrapper>{children}</ReactQueryWrapper>
+        <ReactQueryWrapper>
+          <div className="app">
+            <NavBar />
+            <div className="container">{children}</div>
+          </div>
+        </ReactQueryWrapper>
       </body>
     </html>
   );

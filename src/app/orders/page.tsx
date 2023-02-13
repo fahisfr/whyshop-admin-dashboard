@@ -47,7 +47,6 @@ export default function Orders() {
 
   return (
     <div className={styles.orders_container}>
-      <NavBar />
       <div className={styles.os_right}>
         <OrdersFilterBar orders={data?.orders} setFilteredOrders={setOrders} />
         <div className={styles.os_table_wrapper}>

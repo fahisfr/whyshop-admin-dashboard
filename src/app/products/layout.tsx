@@ -29,7 +29,6 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={styles.products_container}>
-      <NavBar />
       <div className={styles.left}>
         <ProductsFilterBar
           products={data?.products}

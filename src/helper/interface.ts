@@ -33,7 +33,7 @@ export interface Order {
 }
 
 export interface Option {
-  value: string;
+  value: string | number;
   label: string;
 }
 

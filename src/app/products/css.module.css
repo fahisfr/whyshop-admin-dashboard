@@ -1,8 +1,7 @@
 .products_container {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
-  background-color: red;
+  height: 100%;
+
 }
 
 .left {
@@ -13,6 +12,7 @@
   padding: 1rem;
   background-color: var(--bg-secondary);
 }
+
 
 .products_table_wrapper {
   width: 100%;

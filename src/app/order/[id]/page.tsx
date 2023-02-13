@@ -30,7 +30,6 @@ export default function Page({ params: { id } }: PageProps) {
 
   return (
     <div className={styles.order_container}>
-      <NavBar />
       <div className={styles.right}>
         <div className={styles.products}>
           <table className={`${styles.or_table} table`}>
@@ -44,7 +43,7 @@ export default function Page({ params: { id } }: PageProps) {
             <tbody>
               {data.order.products.map((product: Product, index: number) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td className={styles.product_name_wrapper}>
                       <div className={styles.img}>
                         <Image
