@@ -1,0 +1,21 @@
+.chart_container {
+  padding: 10px;
+  border-radius: 7px;
+  width: 100%;
+  max-width: 65rem;
+  background-color: var(--bg-primary);
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 5px;
+}
+.title {
+  font-size: larger;
+  font-weight: 500;
+  align-self: center;
+}
+.select_wrapper {
+  max-width: 14rem;
+}

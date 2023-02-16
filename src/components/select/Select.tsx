@@ -20,8 +20,8 @@ export default function Select({
   const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
 
   const handleOptionSelection = (option: Option) => {
-    setShowOptions(false);
     setSelectedOption(option);
+    setShowOptions(false);
     onSelect(option.value);
   };
 

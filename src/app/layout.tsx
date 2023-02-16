@@ -1,7 +1,8 @@
 import "./globals.css";
 
-import ReactQueryWrapper from "@/helper/ReactQueryWrapper";
+import AppQueryWrapper from "@/helper/AppWrapper";
 import NavBar from "@/components/navBar/NavBar";
+import SidePopUpMessage from "@/components/sidePopUpMessage/sidePopUpMessage";
 
 export default function RootLayout({
   children,
@@ -12,12 +13,13 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <ReactQueryWrapper>
+        <AppQueryWrapper>
           <div className="app">
+            <SidePopUpMessage />
             <NavBar />
             <div className="container">{children}</div>
           </div>
-        </ReactQueryWrapper>
+        </AppQueryWrapper>
       </body>
     </html>
   );

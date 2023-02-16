@@ -9,6 +9,7 @@ import { BiImageAdd } from "react-icons/bi";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
+import { getContext } from "@/helper/context";
 
 const options = [
   { value: "Vegetable", label: "Vegetable" },
@@ -24,14 +25,21 @@ interface PageProps {
 
 export default function Page({ params: { productName } }: PageProps) {
   const router = useRouter();
+  const { state, dispatch, reducerActionTypes } = getContext();
   const imageInputRef = useRef<HTMLInputElement>(null);
-
+  const [product, setProduct] = useState<Product>({
+    _id: "",
+    name: "",
+    price: 0,
+    quantity: 0,
+    category: "",
+    imageName: "",
+  });
   const [btnLoading, setBtnLoading] = useState(false);
   const [newImage, setnewImage] = useState<Image>({
     file: null,
     preview: "",
   });
-  // const [product, pewproduct] = useState({});
 
   const fetchProduct = async () => {
     const { data } = await axios.get(`/product/${productName}`);
@@ -39,15 +47,20 @@ export default function Page({ params: { productName } }: PageProps) {
   };
   const { isLoading, isError, data } = useQuery(
     ["product", productName],
-    fetchProduct
+    fetchProduct,
+    {
+      onSuccess: (res) => {
+        setProduct(res.product);
+      },
+    }
   );
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   pewproduct({
-  //     ...product,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProduct({
+      ...product,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleImageInputRefChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -65,35 +78,40 @@ export default function Page({ params: { productName } }: PageProps) {
     reader.readAsDataURL(file);
   };
 
-  // const saveNow = async (e) => {
-  //   setBtnLoading(true);
-  //   const formData = new FormData();
-  //   formData.append("name", product.name);
-  //   formData.append("category", product.category);
-  //   formData.append("price", product.price.toString());
-  //   formData.append("quantity", product.quantity.toString());
+  const saveNow = async (e: React.MouseEvent<HTMLElement>) => {
+    setBtnLoading(true);
+    const formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("category", product.category);
+    formData.append("price", product.price.toString());
+    formData.append("quantity", product.quantity.toString());
 
-  //   if (newImage.file) {
-  //     formData.append("image", newImage.file);
-  //   }
-  //   const { data } = await axios.put(
-  //     `/admin/product/edit-product/${product._id}`,
-  //     formData
-  //   );
+    if (newImage.file) {
+      formData.append("image", newImage.file);
+    }
+    const { data } = await axios.put(
+      `/admin/product/edit-product/${product._id}`,
+      formData
+    );
 
-  //   if (data.status === "ok") {
-  //     alert("updated");
-  //   } else if (data.status === "error") {
-  //     alert("faild");
-  //   }
-  //   setBtnLoading(false);
-  // };
+    if (data.status === "ok") {
+      triggerSidePopUpMessage(false, data.message);
+    } else if (data.status === "error") {
+      triggerSidePopUpMessage(true, data.message);
+    }
+    setBtnLoading(false);
+  };
+
+  const triggerSidePopUpMessage = (error: boolean, message: string) => {
+    dispatch({
+      type: reducerActionTypes.TRIGGER_SIDE_POPUP_MESSAGE,
+      payload: { error, message },
+    });
+  };
 
   if (isLoading || isError) {
     return <Skeleton />;
   }
-
-  const { product } = data;
 
   return (
     <div className={css.product_container}>
@@ -113,7 +131,7 @@ export default function Page({ params: { productName } }: PageProps) {
               src={
                 newImage.preview
                   ? newImage.preview
-                  : `${imageUrl}/${product.imageName}.jpg`
+                  : `${imageUrl}/${product.imageName}`
               }
             />{" "}
             <input
@@ -132,7 +150,7 @@ export default function Page({ params: { productName } }: PageProps) {
               className={css.pt_input}
               value={data.product.name}
               name="name"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className={css.pt_group}>
@@ -143,10 +161,10 @@ export default function Page({ params: { productName } }: PageProps) {
             <label className={css.pt_label}>Price</label>
             <input
               className={css.pt_input}
-              value={data.product.price}
+              value={product.price}
               name="price"
               type="number"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
           </div>{" "}
           <div className={css.pt_group}>
@@ -155,8 +173,8 @@ export default function Page({ params: { productName } }: PageProps) {
               className={css.pt_input}
               name="quantity"
               type="number"
-              // onChange={handleChange}
-              value={data.product.quantity}
+              onChange={handleChange}
+              value={product.quantity}
             />
           </div>
           <div className={`${css.pt_bottom} ${btnLoading && "btn-loading"}`}>
@@ -168,7 +186,7 @@ export default function Page({ params: { productName } }: PageProps) {
             >
               Cancel
             </button>
-            <button className={`${css.save_btn} btn`}>
+            <button onClick={saveNow} className={`${css.save_btn} btn`}>
               <span className="btn-text">Save</span>
             </button>
           </div>

@@ -59,7 +59,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
                             fill
                             alt=""
                             objectFit="contain"
-                            src={`${BACKEND_URL}/images/${product.imageName}.jpg`}
+                            src={`${BACKEND_URL}/images/${product.imageName}`}
                             className={styles.pt_img}
                           />
                         </div>

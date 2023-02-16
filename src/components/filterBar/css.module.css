@@ -13,12 +13,14 @@
 }
 .add_product_btn {
   height: 2.5rem;
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
   padding: 0 10px;
   font-size: 15px;
   color: white;
   border-radius: 6px;
   border: none;
+  cursor: pointer;
+ 
 }
 .search {
   flex-grow: 1;

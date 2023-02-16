@@ -94,7 +94,7 @@
 }
 .icon_paid {
   font-size: 1.3rem;
-  color: var(--primary-color);
+  color: var(--color-primary);
   text-align: center;
 }
 .icon_not_paid {

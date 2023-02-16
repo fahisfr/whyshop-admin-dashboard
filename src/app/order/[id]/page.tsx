@@ -92,6 +92,15 @@ export default function Page({ params: { id } }: PageProps) {
           <div className={styles.dv}>
             <span className={styles.dv1}>OrderAt</span>
             <span className={styles.dv2}>{getDate(data.order.orderAt)}</span>
+          </div>{" "}
+          <div className={styles.order_status_wrapper}>
+            <div className={styles.order_status}>
+              <div></div>
+              <p>
+                Picking
+                <span>34 minuts ago</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
