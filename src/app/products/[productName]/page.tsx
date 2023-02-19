@@ -4,7 +4,7 @@ import css from "../css.module.css";
 import Img from "next/image";
 import { imageUrl } from "@/helper/axios";
 import { Product, Image } from "@/helper/interface";
-import Select from "@/components/select/Select";
+import Select from "@/components/Select";
 import { BiImageAdd } from "react-icons/bi";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
@@ -114,16 +114,14 @@ export default function Page({ params: { productName } }: PageProps) {
   }
 
   return (
-    <div className={css.product_container}>
-      <div className={css.body}>
-        <div className={css.pt_img}>
+    <div className="fixed w-full h-full top-0 left-0 z-[30] flex items-center justify-center bg-black bg-opacity-25">
+      <div className="w-[50rem] max-w-95% overflow-auto p-8 rounded-lg flex gap-8  bg-white">
+        <div className="w-80 flex-shrink-0">
           <div
-            className={css.img_wrapper}
-            onClick={() => {
-              imageInputRef.current?.click();
-            }}
+            className="h-full border-2 border-gray-300 rounded-lg flex items-center justify-center cursor-pointer relative"
+            onClick={() => imageInputRef.current?.click()}
           >
-            <BiImageAdd className={css.icon_img_add} />
+            <BiImageAdd className="text-4xl" />
             <Img
               fill
               alt=""
@@ -133,60 +131,65 @@ export default function Page({ params: { productName } }: PageProps) {
                   ? newImage.preview
                   : `${imageUrl}/${product.imageName}`
               }
-            />{" "}
+            />
             <input
               type="file"
               ref={imageInputRef}
               accept="image/*"
               onChange={handleImageInputRefChange}
-              style={{ display: "none" }}
+              className="hidden"
             />
           </div>
         </div>
-        <div className={css.pt_info}>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Name</label>
+        <div className=" flex-grow flex flex-col  gap-3">
+          <div className="">
+            <label className="">Name</label>
             <input
-              className={css.pt_input}
-              value={data.product.name}
+              className="pt-input"
+              value={product.name}
               name="name"
               onChange={handleChange}
             />
           </div>
-          <div className={css.pt_group}>
-            <label>Category</label>
+          <div className="">
+            <label className="">Category</label>
             <Select options={options} onSelect={(value: string) => {}} />
           </div>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Price</label>
+          <div className="">
+            <label className="">Price</label>
             <input
-              className={css.pt_input}
+              className="pt-input"
               value={product.price}
               name="price"
               type="number"
               onChange={handleChange}
             />
-          </div>{" "}
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Quntitiy</label>
+          </div>
+          <div className="">
+            <label className="">Quantity</label>
             <input
-              className={css.pt_input}
+              className="pt-input"
               name="quantity"
               type="number"
               onChange={handleChange}
               value={product.quantity}
             />
           </div>
-          <div className={`${css.pt_bottom} ${btnLoading && "btn-loading"}`}>
+          <div className=" flex gap-4 justify-end">
             <button
-              className={css.cancel_btn}
+              className="px-4 py-2 rounded-lg bg-red-500 text-white "
               onClick={() => {
                 router.push("/products");
               }}
             >
               Cancel
             </button>
-            <button onClick={saveNow} className={`${css.save_btn} btn`}>
+            <button
+              onClick={saveNow}
+              className={`${
+                btnLoading ? "opacity-50 cursor-wait" : ""
+              } px-4 py-2 rounded-lg bg-primary text-white `}
+            >
               <span className="btn-text">Save</span>
             </button>
           </div>

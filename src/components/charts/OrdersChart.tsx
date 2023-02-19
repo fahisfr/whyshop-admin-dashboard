@@ -1,13 +1,12 @@
 import styles from "./css.module.css";
 import React, { useState, useEffect } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { useQuery } from "react-query";
 import axios from "../../helper/axios";
 import { Option } from "@/helper/interface";
-import Select from "../select/Select";
+import Select from "../Select";
 import { days as weekDays, months } from "@/helper/daysAndMonths";
-import { setDate } from "date-fns";
 
 interface DataSets {
   label: string;
@@ -54,7 +53,7 @@ const options: Option[] = [
   },
 ];
 
-export default function LineBar() {
+export default function OrdersChart() {
   const [days, setDays] = useState<number>(7);
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
@@ -80,7 +79,6 @@ export default function LineBar() {
   );
 
   function handleOnSuccess(res: any) {
-    
     const currentDate: Date = new Date();
     let data: Data[] = [];
 
@@ -124,7 +122,6 @@ export default function LineBar() {
       });
     } else if (days <= 365) {
       for (let i = Math.floor(days / 30); 0 < i; i--) {
-
         const dateIndex = new Date(
           new Date().setMonth(currentDate.getMonth() - i)
         ).getMonth();
@@ -144,7 +141,6 @@ export default function LineBar() {
         }
       });
     }
-    
 
     setChartData({
       labels: data.map((item) => item.label),
@@ -159,17 +155,11 @@ export default function LineBar() {
     });
   }
 
-  if (isLoading) {
-    return <div>Loading</div>;
-  } else if (isError) {
-    return <div>error </div>;
-  }
-
   return (
-    <div className={styles.chart_container}>
-      <div className={styles.top}>
-        <span className={styles.title}>Orders</span>
-        <div className={styles.select_wrapper}>
+    <div className="p-4 rounded-lg w-full max-w-65 bg-white">
+      <div className="flex justify-between border-b-2 border-gray-300  pb-2">
+        <h2 className="text-2xl font-bold  self-center">Orders</h2>
+        <div className="max-w-14rem">
           <Select
             options={options}
             defaultOptionIndex={0}
@@ -177,9 +167,19 @@ export default function LineBar() {
           />
         </div>
       </div>
-      <div className="sales-chart-body">
-        <Line data={chartData} />
+      <Line data={chartData} />
+    </div>
+  );
+}
+
+export function OrdersChartSkeleton() {
+  return (
+    <div className="p-4 rounded-lg w-full max-w-65 bg-white">
+      <div className="flex  justify-between border-b-2 border-gray-300 pb-5">
+        <div className="w-40 h-8 skeleton"></div>
+        <div className="w-40 h-8 skeleton"></div>
       </div>
+      <div className="w-full mt-4 h-80 skeleton"></div>
     </div>
   );
 }

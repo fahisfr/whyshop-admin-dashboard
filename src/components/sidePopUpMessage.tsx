@@ -13,22 +13,19 @@ export default function sidePopUpMessage() {
   };
   return (
     <div
-      className={`${styles.side_popup_container} ${
-        trigger ? styles.sb_mount : styles.sb_unmount
-      } `}
-      style={{
-        backgroundColor: `${error ? "red" : "green"} `,
-      }}
+      className={`fixed  right-2  top-3 max-w-sm rounded-lg z-[999] transition-all duration-300 ${
+        trigger ? " translate-x-0" : "translate-x-full "
+      } ${error ? "bg-red-500" : "bg-green-500"}`}
     >
-      <div className={styles.sp_body}>
+      <div className="flex items-center justify-center px-4 py-3 space-x-2 text-white">
         {error ? (
-          <BiError className={styles.sp_icon_error} />
+          <BiError className="text-2xl" />
         ) : (
-          <BsCheckCircle className={styles.sp_icon_success} />
+          <BsCheckCircle className="text-2xl" />
         )}
 
-        <span className={styles.sp_message}>{message}</span>
-        <IoMdClose onClick={close} size={20} style={{ cursor: "pointer" }} />
+        <span className="text-base font-medium">{message}</span>
+        <IoMdClose onClick={close} size={20} className="cursor-pointer" />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
+
 import React, { useRef, useState } from "react";
-import css from "../css.module.css";
 import Image from "next/image";
-import Select from "@/components/select/Select";
+import Select from "@/components/Select";
 import { BiImageAdd } from "react-icons/bi";
 import axios from "axios";
 import { Image as Img } from "@/helper/interface";
@@ -62,12 +62,12 @@ export default function Page() {
   };
 
   return (
-    <div className={css.product_container}>
-      <div className={css.body}>
-        <div className={css.pt_img}>
+    <div className="fixed w-full h-full left-0 top-0 z-32 flex items-center bg-gray-400 bg-opacity-50 justify-center backdrop-blur">
+      <div className="w-[50rem] max-h-90% overflow-auto p-8 rounded-lg flex gap-5 bg-white">
+        <div className="w-80 flex">
           <div
             onDrop={handleOnDrop}
-            className={css.img_wrapper}
+            className="w-full h-full relative cursor-pointer flex items-center justify-center border border-gray-400 text-gray-500"
             onClick={() => {
               imageInputRef.current?.click();
             }}
@@ -75,64 +75,70 @@ export default function Page() {
             {newImage.preview ? (
               <Image fill alt="" objectFit="contain" src={newImage.preview} />
             ) : (
-              <div className={css.drop_file}>
-                <BiImageAdd className={css.icon_img_add} />
-                <span>Drag-drop or click herer to choose a file</span>
+              <div className="flex flex-col items-center justify-center">
+                <BiImageAdd className="text-2xl" />
+                <span>Drag-drop or click here to choose a file</span>
               </div>
             )}
             <input
               type="file"
               ref={imageInputRef}
               onChange={handleImageInputRefOneChange}
-              style={{ display: "none" }}
+              className="hidden"
             />
           </div>
         </div>
-        <form className={css.pt_info}>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Name</label>
+        <form className="flex-grow flex flex-col gap-3">
+          <div className="flex flex-col">
+            <label className="text-base font-medium">Name</label>
             <input
-              className={css.pt_input}
+              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
               value={newProductInfo.name}
               name="name"
               onChange={handleChange}
             />
           </div>
-          <div className={css.pt_group}>
-            <label>Category</label>
+          <div className="flex flex-col">
+            <label className="text-base font-medium">Category</label>
             <Select
               options={options}
               onSelect={(value: string) => {}}
-              placeHolder="Select Catgeory..."
+              placeHolder="Select Category..."
             />
           </div>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Price</label>
+          <div className="flex flex-col">
+            <label className="text-base font-medium">Price</label>
             <input
-              className={css.pt_input}
+              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
               value={newProductInfo.price}
               name="price"
               type="number"
               onChange={handleChange}
             />
-          </div>{" "}
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Quntitiy</label>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-base font-medium">Quantity</label>
             <input
-              className={css.pt_input}
-              name="quntitiy"
+              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
+              name="quantity"
               type="number"
               onChange={handleChange}
               value={newProductInfo.quantity}
             />
           </div>
-          <div className={`${css.pt_bottom} ${btnLoading && "btn-loading"}`}>
+          <div className="flex items-center justify-end gap-3 pt-2">
             <Link href="/products">
-              <button className={css.cancel_btn}>Cancel</button>
+              <button className="rounded-md px-4 py-2 bg-red-500 text-white font-medium outline-none hover:bg-red-600 transition-colors duration-200">
+                Cancel
+              </button>
             </Link>
 
-            <button className={`${css.save_btn} btn`}>
-              <span className="btn-text">Add</span>
+            <button
+              className={`rounded-md px-4 py-2  bg-primary text-white font-medium outline-none   ${
+                btnLoading && "opacity-50 pointer-events-none"
+              }`}
+            >
+              <span className="btn-text ">Add</span>
             </button>
           </div>
         </form>

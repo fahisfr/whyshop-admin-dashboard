@@ -1,7 +1,6 @@
-import styles from "./css.module.css";
 import React, { useEffect, useState } from "react";
 import { Product } from "@/helper/interface";
-import Select from "@/components/select/Select";
+import Select from "@/components/Select";
 import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 
@@ -43,23 +42,24 @@ export default function ProductsFilterBar({
   }, [searchText, selecedCategory, products]);
 
   return (
-    <div className={styles.filter}>
-      <div className={styles.select_wrapper}>
+    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
+      <div className="w-32">
         <Select
           options={options}
           onSelect={setSelecedCategory}
           defaultOptionIndex={0}
         />
       </div>
-      <div className={styles.search}>
+      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2 ">
         <input
           placeholder="Search..."
+          className="w-full h-full pl-2  rounded-lg  outline-none "
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <AiOutlineSearch className={styles.icon_search} />
+        <AiOutlineSearch className=" text-2xl" />
       </div>
       <Link href="/products/addProduct">
-        <button className={styles.add_product_btn}>Add Product</button>
+        <button className="bg-primary h-10 text-sm  rounded-md cursor-pointer  px-3 text-white ">Add Product</button>
       </Link>
     </div>
   );

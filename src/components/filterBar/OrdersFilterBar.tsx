@@ -1,7 +1,7 @@
-import styles from "./css.module.css";
+
 import React, { useEffect, useState } from "react";
 import { Order } from "@/helper/interface";
-import Select from "@/components/select/Select";
+import Select from "@/components/Select";
 import { AiOutlineSearch } from "react-icons/ai";
 
 const paymentOptions = [
@@ -39,17 +39,18 @@ export default function ProductsFilterBar({
   }, [searchOrderId, selecedPaymentType, orders]);
 
   return (
-    <div className={styles.filter}>
-      <div className={styles.select_wrapper}>
+    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
+      <div className="w-32">
         <Select options={paymentOptions} onSelect={setSelecedPaymentType} />
       </div>
 
-      <div className={styles.search}>
+      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2">
         <input
+          className="w-full h-full pl-2  rounded-lg  outline-none "
           placeholder="Search order id ..."
           onChange={(e) => setSearchOorderId(e.target.value)}
         />
-        <AiOutlineSearch className={styles.icon_search} />
+        <AiOutlineSearch className=" text-2xl" />
       </div>
     </div>
   );

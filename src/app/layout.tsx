@@ -1,8 +1,8 @@
 import "./globals.css";
 
 import AppQueryWrapper from "@/helper/AppWrapper";
-import NavBar from "@/components/navBar/NavBar";
-import SidePopUpMessage from "@/components/sidePopUpMessage/sidePopUpMessage";
+import NavBar from "@/components/NavBar";
+import SidePopUpMessage from "@/components/sidePopUpMessage";
 
 export default function RootLayout({
   children,
@@ -14,10 +14,12 @@ export default function RootLayout({
       <head />
       <body>
         <AppQueryWrapper>
-          <div className="app">
+          <div className="w-full h-full flex">
             <SidePopUpMessage />
             <NavBar />
-            <div className="container">{children}</div>
+            <div className=" flex-grow p-4  h-screen overflow-scroll bg-secondary">
+              {children}
+            </div>
           </div>
         </AppQueryWrapper>
       </body>

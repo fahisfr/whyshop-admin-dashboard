@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import styles from "../select/css.module.css";
 import { Option } from "@/helper/interface";
 import { BsChevronDown } from "react-icons/bs";
+
 interface SelectProps {
   options: Option[];
   onSelect: (value: string) => void;
@@ -26,9 +26,9 @@ export default function Select({
   };
 
   return (
-    <div className={styles.select_container}>
+    <div className="relative w-full">
       <div
-        className={styles.select_btn}
+        className="w-full flex items-center justify-between border border-gray-400 rounded px-2 h-10 cursor-pointer"
         onClick={() => setShowOptions(!showOptions)}
       >
         {selectedOption ? (
@@ -36,20 +36,20 @@ export default function Select({
         ) : defaultOptionIndex !== undefined ? (
           <span>{options[defaultOptionIndex].label}</span>
         ) : (
-          <span className={styles.place_holder}>{placeHolder}</span>
+          <span className="text-gray-500">{placeHolder}</span>
         )}
         <BsChevronDown />
       </div>
       {showOptions && (
-        <div className={styles.select_content}>
+        <div className="absolute top-full w-full border border-gray-400 rounded bg-white z-10">
           {options.map((option, index) => {
             return (
               <div
-                className={styles.option}
+                className="py-2 px-3 cursor-pointer"
                 key={index}
                 onClick={() => handleOptionSelection(option)}
               >
-                <span className={styles.option_text}>{option.label}</span>
+                <span>{option.label}</span>
               </div>
             );
           })}

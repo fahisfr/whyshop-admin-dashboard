@@ -1,9 +1,7 @@
 "use client";
-import styles from "./css.module.css";
-import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
-import NavBar from "@/components/navBar/NavBar";
-import Image from "next/image";
 import { Product } from "@/helper/interface";
+import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
+import Image from "next/image";
 import { useState } from "react";
 import ProductsFilterBar from "@/components/filterBar/ProductsFilterBar";
 import axios from "@/helper/axios";
@@ -28,68 +26,85 @@ export default function Page({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <div className={styles.products_container}>
-      <div className={styles.left}>
+    <div className="flex h-full">
+      <div className="flex-grow bg-secondary flex flex-col gap-4">
         <ProductsFilterBar
           products={data?.products}
           setProducts={setProducts}
         />
-        <div className={styles.products_table_wrapper}>
-          <table className={styles.table}>
-            <thead className={styles.thead}>
+        <div className="max-h-full bg-white rounded-md overflow-auto">
+          <table className="w-full table table-auto">
+            <thead>
               <tr>
-                <th>Image</th>
-                <th>name</th>
-                <th>category</th>
-                <th>price</th>
-                <th>total quantity</th>
-                <th></th>
+                <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                  Image
+                </th>
+                <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                  Name
+                </th>
+                <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                  Category
+                </th>
+                <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                  Price
+                </th>
+                <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                  Total Quantity
+                </th>
+                <th className=""></th>
               </tr>
             </thead>
-            <tbody className={styles.tbody}>
+            <tbody>
               {isLoading ? (
                 <TableBodySkeleton colCount={6} />
               ) : (
                 products.map((product: Product, index: number) => {
                   return (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      className="border-b border-frost-gray hover:bg-gray-100"
+                    >
                       <td>
-                        <div className={styles.pt_img_wrapper}>
+                        <div className="relative w-16 h-16 ">
                           <Image
                             fill
                             alt=""
                             objectFit="contain"
                             src={`${BACKEND_URL}/images/${product.imageName}`}
-                            className={styles.pt_img}
+                            className="pt_img"
                           />
                         </div>
                       </td>
                       <td>
-                        <span className={styles.name}>{product.name}</span>
+                        <span className="text-sm font-medium ">
+                          {product.name}
+                        </span>
                       </td>
                       <td>
-                        <span className={styles.category}>
+                        <span className="text-xs bg-green-500 text-white font-medium px-2 py-1 rounded">
                           {product.category}
                         </span>
                       </td>
                       <td>
-                        <span className={styles.price}>₹{product.price}</span>
+                        <span className="text-sm font-medium price">
+                          ₹{product.price}
+                        </span>
                       </td>
                       <td>
-                        <span className={styles.quantity}>
+                        <span className="text-sm font-medium ">
                           {product.quantity}
                         </span>
                       </td>
                       <td>
-                        <div className={styles.btn_wrapper}>
+                        <div className="flex">
                           <Link href={`/products/${product.name}`}>
-                            <button className={styles.btn}>
-                              <AiOutlineEdit className={styles.icon_edit} />
+                            <button className="mr-2 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
+                              <AiOutlineEdit className="text-lg icon_edit" />
                             </button>
                           </Link>
 
-                          <button className={styles.btn}>
-                            <AiFillDelete className={styles.icon_delete} />
+                          <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
+                            <AiFillDelete className="text-lg icon_delete" />
                           </button>
                         </div>
                       </td>
