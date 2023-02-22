@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Order } from "@/helper/interface";
 import Select from "@/components/Select";
@@ -40,10 +39,9 @@ export default function ProductsFilterBar({
 
   return (
     <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
-      <div className="w-32">
+      <div className=" max-w-xl">
         <Select options={paymentOptions} onSelect={setSelecedPaymentType} />
       </div>
-
       <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2">
         <input
           className="w-full h-full pl-2  rounded-lg  outline-none "
@@ -51,6 +49,17 @@ export default function ProductsFilterBar({
           onChange={(e) => setSearchOorderId(e.target.value)}
         />
         <AiOutlineSearch className=" text-2xl" />
+      </div>
+    </div>
+  );
+}
+
+export function Skeleton() {
+  return (
+    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
+      <div className=" max-w-xl"></div>
+      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2">
+     
       </div>
     </div>
   );

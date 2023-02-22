@@ -5,10 +5,10 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 
 const options = [
-  { value: "all", label: "all" },
-  { value: "vegetables", label: "vegetables" },
-  { value: "fruits", label: "fruits" },
-  { value: "sweets", label: "fweets" },
+  { value: "all", label: "All Category" },
+  { value: "vegetables", label: "Vegetables" },
+  { value: "fruits", label: "Fruits" },
+  { value: "sweets", label: "Sweets" },
 ];
 
 interface FilterBarProps {
@@ -42,7 +42,7 @@ export default function ProductsFilterBar({
   }, [searchText, selecedCategory, products]);
 
   return (
-    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
+    <div className="w-full p-3 flex gap-3  flex-shrink-0  justify-evenly  bg-white">
       <div className="w-32">
         <Select
           options={options}
@@ -50,17 +50,29 @@ export default function ProductsFilterBar({
           defaultOptionIndex={0}
         />
       </div>
-      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2 ">
+      <div className="flex flex-grow  items-center  rounded-lg border border-gray-400 pr-2 ">
         <input
           placeholder="Search..."
           className="w-full h-full pl-2  rounded-lg  outline-none "
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <AiOutlineSearch className=" text-2xl" />
+        <AiOutlineSearch className=" text-2xl text-gray-500" />
       </div>
       <Link href="/products/addProduct">
-        <button className="bg-primary h-10 text-sm  rounded-md cursor-pointer  px-3 text-white ">Add Product</button>
+        <button className="bg-primary h-10 text-sm  rounded-md cursor-pointer  px-3 text-white  ">
+          Add Product
+        </button>
       </Link>
+    </div>
+  );
+}
+
+export function Skeleton() {
+  return (
+    <div className="w-full p-3 flex gap-3  flex-shrink-0  justify-evenly  bg-white">
+      <div className="w-32 h-full skeleton rounded-ls"></div>
+      <div className="flex flex-grow  skeleton rounded-lg  pr-2 "></div>
+      <button className="w-24 skeleton h-10   rounded-md "></button>
     </div>
   );
 }

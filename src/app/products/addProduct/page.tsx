@@ -7,6 +7,7 @@ import { BiImageAdd } from "react-icons/bi";
 import axios from "axios";
 import { Image as Img } from "@/helper/interface";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const options = [
   { value: "Vegetable", label: "Vegetable" },
   { value: "fruits", label: "Fruits" },
@@ -14,6 +15,7 @@ const options = [
 ];
 
 export default function Page() {
+  const router = useRouter();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [btnLoading, setLoading] = useState<boolean>(false);
   const [newProductInfo, setNewProductInfo] = useState({
@@ -62,12 +64,16 @@ export default function Page() {
   };
 
   return (
-    <div className="fixed w-full h-full left-0 top-0 z-32 flex items-center bg-gray-400 bg-opacity-50 justify-center backdrop-blur">
-      <div className="w-[50rem] max-h-90% overflow-auto p-8 rounded-lg flex gap-5 bg-white">
-        <div className="w-80 flex">
+    <div className="fixed inset-0 z-32 flex items-center bg-gray-400 bg-opacity-50 justify-center backdrop-blur">
+      <div
+        className="fixed  inset-0"
+        onClick={() => router.push("/products")}
+      ></div>
+      <div className="w-[50rem]  max-w-[90%] max-h-[95%]  relative  overflow-auto p-8 rounded-lg flex gap-5 bg-white -sm:flex-col">
+        <div className="w-80 flex -sm:w-full">
           <div
             onDrop={handleOnDrop}
-            className="w-full h-full relative cursor-pointer flex items-center justify-center border border-gray-400 text-gray-500"
+            className="w-full h-full relative cursor-pointer flex items-center justify-center border border-gray-400 text-gray-500 -sm:h-60"
             onClick={() => {
               imageInputRef.current?.click();
             }}

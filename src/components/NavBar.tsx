@@ -10,39 +10,43 @@ export default function NavBar() {
   const pathName = usePathname();
 
   return (
-    <div className=" flex flex-col  h-screen w-86  p-10 gap-40">
+    <div className="flex  flex-col  -sm:order-2 px-6 py-4 sm:gap-40  shadow-md -sm:items-center">
       <div>
-        <h1 className=" text-2xl font-bold">WhyShop Admin</h1>
+        <h1 className="text-2xl hidden lg:block  text-primary  ">WhyShop Admin</h1>
       </div>
-      <div className=" flex flex-col gap-5">
+      <div className="flex flex-col  -sm:flex-row gap-5 ">
         <Link href={"/"}>
           <div
             className={` ${
               pathName === "/" ? " text-white bg-primary" : ""
-            } flex items-center rounded-lg p-3 gap-5 shadow-md`}
+            }   flex rounded-full items-center lg:rounded-lg p-3 lg:gap-5 shadow-md`}
           >
             <RxDashboard className=" text-3xl" />
-            <span className="text-lg font-medium">DashBoard</span>
+            <span className="text-lg lg:block  hidden font-medium">
+              DashBoard
+            </span>
           </div>
         </Link>
         <Link href="/products">
           <div
             className={`nb_group ${
               pathName === "/products" ? "  text-white bg-primary" : ""
-            } flex items-center rounded-lg p-3 gap-5 shadow-md`}
+            } flex rounded-full items-center lg:rounded-lg p-3 lg:gap-5 shadow-md`}
           >
             <GrShop className="text-3xl" />
-            <span className="nb_text text-lg font-medium">Products</span>
+            <span className="text-lg lg:block  hidden font-medium">
+              Products
+            </span>
           </div>
         </Link>
         <Link href="/orders">
           <div
-            className={`nb_group ${
+            className={` ${
               pathName === "/orders" ? " text-white bg-primary" : ""
-            } flex items-center rounded-lg p-3 gap-5 shadow-md`}
+            } flex rounded-full items-center lg:rounded-lg p-3 lg:gap-5 shadow-md`}
           >
             <BsFillCartPlusFill className=" text-3xl" />
-            <span className=" text-lg font-medium">Orders</span>
+            <span className="text-lg lg:block  hidden font-medium">Orders</span>
           </div>
         </Link>
       </div>

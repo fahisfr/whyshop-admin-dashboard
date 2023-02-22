@@ -50,16 +50,11 @@ export default function ProductsSold({ products }) {
     },
   };
   return (
-    <div className={styles.chart_container}>
-      <div className={styles.top}>
-        <span className={styles.title}> Products Soild</span>
-        <div className={styles.select_wrapper}>
-          {/* <Select
-            options={options}
-            defaultOptionIndex={0}
-            onSelect={(value) => setDays(value)}
-          /> */}
-        </div>
+    <div className="chart_container bg-white rounded-lg p-4 w-full max-w-65">
+      <div className=" border-gray-300 pb-1 flex justify-between">
+        <span className="text-lg  font-semibold align-middle">
+          Products Sold
+        </span>
       </div>
       <div className="sales-chart-body">
         <Bar data={chartData} options={options} />

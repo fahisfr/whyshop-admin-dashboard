@@ -28,17 +28,27 @@ export default function Select({
   return (
     <div className="relative w-full">
       <div
-        className="w-full flex items-center justify-between border border-gray-400 rounded px-2 h-10 cursor-pointer"
+        className="w-full flex items-center justify-between border border-gray-300 rounded px-2 h-10 gap-1 cursor-pointer"
         onClick={() => setShowOptions(!showOptions)}
       >
         {selectedOption ? (
-          <span>{selectedOption.label}</span>
+          <span className="block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis">
+            {selectedOption.label}
+          </span>
         ) : defaultOptionIndex !== undefined ? (
-          <span>{options[defaultOptionIndex].label}</span>
+          <span className="block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis">
+            {options[defaultOptionIndex].label}
+          </span>
         ) : (
-          <span className="text-gray-500">{placeHolder}</span>
+          <span className=" block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis  text-gray-500">
+            {placeHolder}
+          </span>
         )}
-        <BsChevronDown />
+        <BsChevronDown
+          className={` transition duration-300 ${
+            showOptions ? "rotate-180" : "  "
+          } `}
+        />
       </div>
       {showOptions && (
         <div className="absolute top-full w-full border border-gray-400 rounded bg-white z-10">
@@ -49,7 +59,9 @@ export default function Select({
                 key={index}
                 onClick={() => handleOptionSelection(option)}
               >
-                <span>{option.label}</span>
+                <span className="  block max-w-[90%]  overflow-hidden overflow-ellipsis">
+                  {option.label}
+                </span>
               </div>
             );
           })}

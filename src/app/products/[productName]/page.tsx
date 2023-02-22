@@ -114,84 +114,82 @@ export default function Page({ params: { productName } }: PageProps) {
   }
 
   return (
-    <div className="fixed w-full h-full top-0 left-0 z-[30] flex items-center justify-center bg-black bg-opacity-25">
-      <div className="w-[50rem] max-w-95% overflow-auto p-8 rounded-lg flex gap-8  bg-white">
-        <div className="w-80 flex-shrink-0">
-          <div
-            className="h-full border-2 border-gray-300 rounded-lg flex items-center justify-center cursor-pointer relative"
-            onClick={() => imageInputRef.current?.click()}
-          >
-            <BiImageAdd className="text-4xl" />
-            <Img
-              fill
-              alt=""
-              objectFit="contain"
-              src={
-                newImage.preview
-                  ? newImage.preview
-                  : `${imageUrl}/${product.imageName}`
-              }
-            />
-            <input
-              type="file"
-              ref={imageInputRef}
-              accept="image/*"
-              onChange={handleImageInputRefChange}
-              className="hidden"
-            />
-          </div>
-        </div>
-        <div className=" flex-grow flex flex-col  gap-3">
-          <div className="">
-            <label className="">Name</label>
-            <input
-              className="pt-input"
-              value={product.name}
-              name="name"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="">
-            <label className="">Category</label>
-            <Select options={options} onSelect={(value: string) => {}} />
-          </div>
-          <div className="">
-            <label className="">Price</label>
-            <input
-              className="pt-input"
-              value={product.price}
-              name="price"
-              type="number"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="">
-            <label className="">Quantity</label>
-            <input
-              className="pt-input"
-              name="quantity"
-              type="number"
-              onChange={handleChange}
-              value={product.quantity}
-            />
-          </div>
-          <div className=" flex gap-4 justify-end">
-            <button
-              className="px-4 py-2 rounded-lg bg-red-500 text-white "
-              onClick={() => {
-                router.push("/products");
-              }}
+    <div className="fixed inset-0 z-[100] overflow-auto">
+      <div className=" p-4  min-h-screen    flex items-center justify-center ">
+        <div
+          className="fixed  inset-0 backdrop-blur-sm  bg-black/10"
+          onClick={() => router.push("/products")}
+        ></div>
+        <div className="  w-full max-w-[50rem]  flex-shrink-0  relative bg-white  p-8 rounded-lg flex gap-8 -sm:flex-col">
+          <div className="w-80  flex-shrink-0   -sm:w-full">
+            <div
+              className="h-full  border border-gray-400 rounded-lg flex items-center justify-center cursor-pointer relative -sm:w-full -sm:h-[15rem]  "
+              onClick={() => imageInputRef.current?.click()}
             >
-              Cancel
-            </button>
-            <button
-              onClick={saveNow}
-              className={`${
-                btnLoading ? "opacity-50 cursor-wait" : ""
-              } px-4 py-2 rounded-lg bg-primary text-white `}
-            >
-              <span className="btn-text">Save</span>
-            </button>
+              <BiImageAdd className="text-4xl" />
+              <Img
+                fill
+                alt=""
+                objectFit="contain"
+                src={
+                  newImage.preview
+                    ? newImage.preview
+                    : `${imageUrl}/${product.imageName}`
+                }
+              />
+              <input
+                type="file"
+                ref={imageInputRef}
+                accept="image/*"
+                onChange={handleImageInputRefChange}
+                className="hidden"
+              />
+            </div>
+          </div>
+          <div className=" flex-grow flex flex-col  gap-3">
+            <div>
+              <label className="">Name</label>
+              <input
+                className="pt-input"
+                value={product.name}
+                name="name"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="">Category</label>
+              <Select options={options} onSelect={(value: string) => {}} />
+            </div>
+            <div>
+              <label className="">Price</label>
+              <input
+                className="pt-input"
+                value={product.price}
+                name="price"
+                type="number"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="">Quantity</label>
+              <input
+                className="pt-input"
+                name="quantity"
+                type="number"
+                onChange={handleChange}
+                value={product.quantity}
+              />
+            </div>
+            <div className=" flex gap-4 justify-end">
+              <button
+                onClick={saveNow}
+                className={`${
+                  btnLoading ? "opacity-50 cursor-wait" : ""
+                } px-4 py-2 rounded-lg bg-primary text-white w-full `}
+              >
+                <span className="btn-text">Save</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -200,36 +198,37 @@ export default function Page({ params: { productName } }: PageProps) {
 }
 
 function Skeleton() {
+  const router = useRouter();
   return (
-    <div className={css.product_container}>
-      <div className={css.body}>
-        <div className={css.pt_img}>
-          <div className={`${css.img_wrapper} `}>
-            <div className="wh-full skeleton"></div>
-          </div>
+    <div className="fixed inset-0  flex items-center justify-center backdrop-blur-sm bg-black/10  ">
+      <div
+        className="fixed  inset-0"
+        onClick={() => router.push("/products")}
+      ></div>
+      <div className="max-w-[50rem]   relative bg-white overflow-auto p-8 rounded-lg flex gap-8 -sm:flex-col">
+        <div className="w-80  flex-shrink-0 -sm:w-full">
+          <div className="h-full  border border-gray-400 skeleton rounded-lg -sm:w-full -sm:h-[15rem]  "></div>
         </div>
-        <div className={css.pt_info}>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Name</label>
-            <div className={`${css.pt_input} skeleton`}></div>
+        <div className=" flex-grow flex flex-col  gap-3">
+          <div>
+            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
+            <div className="skeleton pt-input"></div>
           </div>
-          <div className={css.pt_group}>
-            <label>Category</label>
-            <div className={`${css.pt_input} skeleton`}></div>
+          <div>
+            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
+            <div className="skeleton pt-input"></div>
           </div>
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Price</label>
-            <div className={`${css.pt_input} skeleton`}></div>
-          </div>{" "}
-          <div className={css.pt_group}>
-            <label className={css.pt_label}>Quntitiy</label>
-            <div className={`${css.pt_input} skeleton`}></div>
+          <div>
+            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
+            <div className="skeleton pt-input"></div>
           </div>
-          <div className={`${css.pt_bottom}`}>
-            <button className={css.cancel_btn}>Cancel</button>
-            <button className={`${css.save_btn} btn`}>
-              <span className="btn-text">Save</span>
-            </button>
+          <div>
+            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
+            <div className="skeleton pt-input"></div>
+          </div>
+          <div className=" flex gap-4 justify-end">
+            <div className=" w-[5.5rem] h-10 skeleton rounded-sm"></div>
+            <div className=" w-[5.5rem] h-10 skeleton rounded-sm "></div>
           </div>
         </div>
       </div>

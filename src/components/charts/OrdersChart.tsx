@@ -148,8 +148,8 @@ export default function OrdersChart() {
         {
           label: "Sales",
           data: data.map((item) => item.orders),
-          // borderColor: "#61e761",
-          // tension: 0.1,
+          borderColor: "#61e761",
+          tension: 0.1,
         },
       ],
     });
@@ -157,9 +157,9 @@ export default function OrdersChart() {
 
   return (
     <div className="p-4 rounded-lg w-full max-w-65 bg-white">
-      <div className="flex justify-between border-b-2 border-gray-300  pb-2">
-        <h2 className="text-2xl font-bold  self-center">Orders</h2>
-        <div className="max-w-14rem">
+      <div className="flex justify-between  pb-1">
+        <h2 className="text-lg font-semibold align-middle">Orders</h2>
+        <div className="">
           <Select
             options={options}
             defaultOptionIndex={0}

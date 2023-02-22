@@ -37,6 +37,7 @@ a {
   @apply w-full rounded-md border border-gray-400 h-10 px-3 text-base outline-none;
 }
 
+
 .btn-loading .btn {
   position: relative;
   cursor: wait !important;
@@ -81,20 +82,12 @@ table > :not(caption) > * > * {
   border-bottom-width: 1px;
   padding: 1rem 1.5rem;
 }
-@keyframes just-loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 .skeleton {
 
-  @apply animate-pulse bg-gray-300
+  /* @apply animate-pulse bg-gray-200 */
 
-  /* background-color: #e5e5e6 !important;
+  background-color: #e5e5e6 !important;
   background: linear-gradient(
     120deg,
     #e5e5e5 30%,
@@ -104,7 +97,7 @@ table > :not(caption) > * > * {
   );
   background-size: 200% 100%;
   background-position: 100% 0;
-  animation: load 1.3s infinite; */
+  animation: load 1.3s infinite;
 }
 .os-td-skeleton {
   width: 100%;
