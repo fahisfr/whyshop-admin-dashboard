@@ -4,7 +4,7 @@ import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import Image from "next/image";
 import { useState } from "react";
 import ProductsFilterBar, {
-  Skeleton,
+  Skeleton as ProductFilterSkeleton,
 } from "@/components/filterBar/ProductsFilterBar";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
@@ -12,7 +12,12 @@ import TableBodySkeleton from "@/components/skeleton/TableBody";
 import Link from "next/link";
 
 const BACKEND_URL = process.env.BACKEND_URL;
-export default function Page({ children }: { children: React.ReactNode }) {
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function Page({ children }: Props) {
   const [products, setProducts] = useState<Product[]>([]);
   const fetchProducts = async () => {
     const { data } = await axios.get("/product/all-products");
@@ -27,17 +32,13 @@ export default function Page({ children }: { children: React.ReactNode }) {
     },
   });
 
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-auto">
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        <ProductsFilterBar
-          products={data?.products}
-          setProducts={setProducts}
-        />
-      )}
-
+      <ProductsFilterBar products={data?.products} setProducts={setProducts} />
       <div className="max-h-full bg-white rounded-md  overflow-auto">
         <table className="w-full h-full table-auto">
           <thead>
@@ -101,15 +102,15 @@ export default function Page({ children }: { children: React.ReactNode }) {
                       </span>
                     </td>
                     <td>
-                      <div className="flex">
+                      <div className="flex gap-2">
                         <Link href={`/products/${product.name}`}>
-                          <button className="mr-2 px-1 py-[6px] bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
-                            <AiOutlineEdit className="text-lg icon_edit" />
+                          <button className=" px-1 py-[6px] border border-green-600 text-green-600 rounded hover:bg-green-600 hover:text-white transition duration-300">
+                            <AiOutlineEdit className="text-lg  " />
                           </button>
                         </Link>
 
-                        <button className=" p-1 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
-                          <AiFillDelete className="text-lg icon_delete" />
+                        <button className=" p-1  border border-red-600  text-red-600 rounded hover:bg-red-600 hover:text-white transition duration-300">
+                          <AiFillDelete className="text-lg  " />
                         </button>
                       </div>
                     </td>
@@ -121,6 +122,41 @@ export default function Page({ children }: { children: React.ReactNode }) {
         </table>
       </div>
       {children}
+    </div>
+  );
+}
+
+export function Skeleton() {
+  return (
+    <div className="w-full h-full flex flex-col gap-4 overflow-auto">
+      <ProductFilterSkeleton />
+      <div className="max-h-full bg-white rounded-md  overflow-auto">
+        <table className="w-full h-full table-auto">
+          <thead>
+            <tr>
+              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                Image
+              </th>
+              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                Name
+              </th>
+              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                Category
+              </th>
+              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                Price
+              </th>
+              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
+                Total Quantity
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <TableBodySkeleton colCount={6} />
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -1,21 +1,43 @@
 "use client";
 
 import { imageUrl } from "@/helper/axios";
-import React from "react";
-import styles from "./css.module.css";
+import React, { useState } from "react";
 import Image from "next/image";
 import getDate from "@/helper/getDate";
 import axios from "@/helper/axios";
-import { useQuery } from "react-query";
-import { Product } from "@/helper/interface";
-
+import { useQuery, useQueryClient } from "react-query";
+import { Order, Product } from "@/helper/interface";
+import { BiPackage } from "react-icons/bi";
+import { BsBagCheck } from "react-icons/bs";
+import { RiEBike2Fill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 interface PageProps {
   params: {
     id: string;
   };
 }
-
+const orderStatus = [
+  {
+    value: "processing",
+    icon: <BiPackage />,
+  },
+  {
+    value: "packed",
+    icon: <BiPackage />,
+  },
+  {
+    value: "out for delivery",
+    icon: <RiEBike2Fill />,
+  },
+  {
+    value: "delivered",
+    icon: <BsBagCheck />,
+  },
+];
 export default function Page({ params: { id } }: PageProps) {
+  const [nextStepBtnLoading, setNextStepBtnLoading] = useState<boolean>(false);
+  const [previousBtnLoading, setPreviousBtnLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
   const fetchOrder = async () => {
     const { data } = await axios(`/order/${id}`);
     return data;
@@ -24,67 +46,161 @@ export default function Page({ params: { id } }: PageProps) {
     ["order", id],
     fetchOrder
   );
+
   if (isLoading) {
     return <div>loading</div>;
   }
+  const order: Order = data.order;
+  const orderStatusIndex = orderStatus.findIndex(
+    (status) => order.orderStatus === status.value
+  );
+
+  const chageOrderStatus = async (
+    orderStatusIndex: number,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    if (orderStatus.length > orderStatusIndex) {
+      setBtnLoading(true);
+      const newOrderStatus = orderStatus[orderStatusIndex].value;
+      const { data } = await axios.put("/admin/order/change-order-status", {
+        id: order._id,
+        orderStatus: newOrderStatus,
+      });
+      setBtnLoading(false);
+      if (data.status === "ok") {
+        const updatedOrderInfo = order;
+        order.orderStatus = newOrderStatus;
+        queryClient.setQueryData(["order", id], {
+          status: "ok",
+          order: updatedOrderInfo,
+        });
+      } else if (data.status === "error") {
+        alert("error");
+      }
+    }
+  };
 
   return (
-    <div className="h-screen w-screen flex ">
-      <div className="h-full w-min-[30rem] rounded-lg flex flex-col overflow-auto ">
-        {data.order.products.map((product: Product, index: number) => {
-          return (
-            <div
-              key={index}
-              className="p-2 w-full flex justify-between items-center"
-            >
-              <div className="w-[4.5rem] h-[4.5rem] relative">
-                <Image
-                  className="object-contain"
-                  alt=""
-                  fill
-                  objectFit="contain"
-                  src={`${imageUrl}/${product.imageName}.jpg`}
-                />
-              </div>
-              <span>{product.name}</span>
-              <span>{product.quantity}</span>
-              <span>₹{product.price}</span>
-            </div>
-          );
-        })}
+    <div className="w-ful h-full  flex gap-4 -lg:items-center -lg:justify-center  -lg:flex-col -lg:h-auto  ">
+      <div className=" w-full     bg-white  overflow-auto shadow">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>quantity</th>
+              <th>price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.order.products.map((product: Product, index: number) => {
+              return (
+                <tr key={index}>
+                  <td className="flex gap-1 items-center">
+                    <div
+                      className=" w-16 h-16 relative
+                    "
+                    >
+                      <Image
+                        fill
+                        alt=""
+                        objectFit="contain"
+                        src={`${imageUrl}/${product.imageName}.jpg`}
+                      />
+                    </div>
+                    <span>{product.name}</span>
+                  </td>
+                  <td>
+                    <span>{product.quantity}</span>
+                  </td>
+                  <td>
+                    <span>₹{product.price}</span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
-      <div className="h-full w-min-[30rem] flex flex-col p-4 bg-primary">
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">ID</span>
-          <span className="">{data.order._id}</span>
+
+      <div className="w-full  max-w-lg bg-white flex   flex-col p-4 after:w-0 gap-3  shadow ">
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>ID</span>
+          <span>{order._id}</span>
         </div>
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">Payment Type</span>
-          <span className="">{data.order.paymentType}</span>
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>Payment Type</span>
+          <span>{order.paymentType}</span>
         </div>
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">Payment Status</span>
-          <span className="">{data.order.paymentStatus}</span>
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>Payment Status</span>
+          <span>{order.paymentStatus}</span>
         </div>
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">Total Price</span>
-          <span className="">₹{data.order.totalPrice}</span>
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>Total Price</span>
+          <span>₹{order.totalPrice}</span>
         </div>
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">Payment Id</span>
-          <span className="">{data.order.paymentId}</span>
+
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>Payment Id</span>
+          <span>{order.paymentId}</span>
         </div>
-        <div className="p-2 border rounded-md">
-          <span className="text-gray-500 text-sm">OrderAt</span>
-          <span className="">{getDate(data.order.orderAt)}</span>
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
+          <span>OrderAt</span>
+          <span>{getDate(order.orderAt)}</span>
         </div>
-        <div className="flex-grow flex justify-end">
-          <div className="border rounded-md p-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-            <p className="ml-2">
-              Picking
-              <span className="ml-1 text-gray-500 text-sm">34 minutes ago</span>
-            </p>
+
+        <div className="flex ">
+          {orderStatus.map((status, index) => {
+            const isCompleted = orderStatusIndex >= index;
+            return (
+              <div
+                className={`stepper-item ${isCompleted && " completed"}`}
+                key={index}
+              >
+                <div className="step-counter text-2xl text-white  transition duration-300">
+                  {isCompleted ? (
+                    <FiCheck className=" text-[30px]" />
+                  ) : (
+                    status.icon
+                  )}
+                </div>
+                <h4 className="step-name capitalize">{status.value}</h4>
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex p-2 items-center justify-center">
+          <div
+            className={`${
+              previousBtnLoading && "btn-loading"
+            } flex items-center justify-center p-3`}
+          >
+            <button
+              disabled={orderStatusIndex <= 0}
+              onClick={() =>
+                chageOrderStatus(orderStatusIndex - 1, setPreviousBtnLoading)
+              }
+              className="btn w-[10rem] h-10  rounded-sm text-white   bg-red-500 hover:bg-red-600   transition duration-300 "
+            >
+              <span className="btn-text ">Previous Step</span>
+            </button>
+          </div>
+          <div
+            className={`${
+              nextStepBtnLoading && "btn-loading"
+            } flex items-center justify-center p-3`}
+          >
+            <button
+              disabled={
+                orderStatusIndex + 1 >= orderStatus.length || nextStepBtnLoading
+              }
+              onClick={() =>
+                chageOrderStatus(orderStatusIndex + 1, setNextStepBtnLoading)
+              }
+              className="btn w-[10rem] h-10  bg-green-700  rounded-sm text-white hover:bg-green-600    transition duration-300 "
+            >
+              <span className="btn-text ">Next Setp</span>
+            </button>
           </div>
         </div>
       </div>

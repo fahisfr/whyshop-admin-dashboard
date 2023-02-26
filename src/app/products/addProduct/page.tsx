@@ -29,7 +29,10 @@ export default function Page() {
     preview: "",
   });
 
-  const addProduct = async () => {
+  const addProduct = async (e) => {
+    e.preventDefault();
+    setLoading(!btnLoading);
+    return false;
     const { data } = await axios.post("/product/add-product");
     if (data.status === "ok") {
     } else if (data.status === "error") {
@@ -94,7 +97,7 @@ export default function Page() {
             />
           </div>
         </div>
-        <form className="flex-grow flex flex-col gap-3">
+        <div className="flex-grow flex flex-col gap-3">
           <div className="flex flex-col">
             <label className="text-base font-medium">Name</label>
             <input
@@ -132,22 +135,15 @@ export default function Page() {
               value={newProductInfo.quantity}
             />
           </div>
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <Link href="/products">
-              <button className="rounded-md px-4 py-2 bg-red-500 text-white font-medium outline-none hover:bg-red-600 transition-colors duration-200">
-                Cancel
-              </button>
-            </Link>
-
+          <div className={`${btnLoading ? "btn-loading" : ""}`}>
             <button
-              className={`rounded-md px-4 py-2  bg-primary text-white font-medium outline-none   ${
-                btnLoading && "opacity-50 pointer-events-none"
-              }`}
+              onClick={addProduct}
+              className={` btn rounded-md px-4 py-2 w-full h-10 bg-primary text-white font-medium outline-none `}
             >
-              <span className="btn-text ">Add</span>
+              <span className="btn-text  ">Add</span>
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

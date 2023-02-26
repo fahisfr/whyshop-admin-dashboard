@@ -25,7 +25,7 @@ interface PageProps {
 
 export default function Page({ params: { productName } }: PageProps) {
   const router = useRouter();
-  const { state, dispatch, reducerActionTypes } = getContext();
+  const {  dispatch, reducerActionTypes } = getContext();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [product, setProduct] = useState<Product>({
     _id: "",
@@ -109,7 +109,7 @@ export default function Page({ params: { productName } }: PageProps) {
     });
   };
 
-  if (isLoading || isError) {
+  if (isLoading || isError ) {
     return <Skeleton />;
   }
 
@@ -200,35 +200,34 @@ export default function Page({ params: { productName } }: PageProps) {
 function Skeleton() {
   const router = useRouter();
   return (
-    <div className="fixed inset-0  flex items-center justify-center backdrop-blur-sm bg-black/10  ">
-      <div
-        className="fixed  inset-0"
-        onClick={() => router.push("/products")}
-      ></div>
-      <div className="max-w-[50rem]   relative bg-white overflow-auto p-8 rounded-lg flex gap-8 -sm:flex-col">
-        <div className="w-80  flex-shrink-0 -sm:w-full">
-          <div className="h-full  border border-gray-400 skeleton rounded-lg -sm:w-full -sm:h-[15rem]  "></div>
-        </div>
-        <div className=" flex-grow flex flex-col  gap-3">
-          <div>
-            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
-            <div className="skeleton pt-input"></div>
+    <div className="fixed inset-0 overflow-auto">
+      <div className="flex items-center justify-center min-h-full p-4 ">
+        <div
+          className="fixed  inset-0 backdrop-blur-sm bg-black/10 "
+          onClick={() => router.push("/products")}
+        ></div>
+        <div className="  w-full max-w-[50rem]    relative bg-white overflow-auto p-8 rounded-lg flex gap-8 -sm:flex-col">
+          <div className="w-80  flex-shrink-0 -sm:w-full">
+            <div className="h-full  skeleton rounded-lg -sm:w-full -sm:h-[15rem]  "></div>
           </div>
-          <div>
-            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
-            <div className="skeleton pt-input"></div>
-          </div>
-          <div>
-            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
-            <div className="skeleton pt-input"></div>
-          </div>
-          <div>
-            <div className=" mb-1 w-[20%] h-7 skeleton"></div>
-            <div className="skeleton pt-input"></div>
-          </div>
-          <div className=" flex gap-4 justify-end">
-            <div className=" w-[5.5rem] h-10 skeleton rounded-sm"></div>
-            <div className=" w-[5.5rem] h-10 skeleton rounded-sm "></div>
+          <div className=" flex-grow flex flex-col  gap-3">
+            <div>
+              <div className=" mb-1 w-16 h-7 skeleton"></div>
+              <div className="skeleton h-10 rounded-sm"></div>
+            </div>
+            <div>
+              <div className=" mb-1 w-16 h-7 skeleton"></div>
+              <div className="skeleton h-10 rounded-sm"></div>
+            </div>
+            <div>
+              <div className=" mb-1 w-16 h-7 skeleton"></div>
+              <div className="skeleton h-10 rounded-sm"></div>
+            </div>
+            <div>
+              <div className=" mb-1 w-16 h-7 skeleton"></div>
+              <div className="skeleton h-10 rounded-sm"></div>
+            </div>
+            <div className="w-full h-10 skeleton rounded-sm"></div>
           </div>
         </div>
       </div>

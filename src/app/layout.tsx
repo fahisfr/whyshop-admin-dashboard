@@ -14,10 +14,10 @@ export default function RootLayout({
       <head />
       <body>
         <AppQueryWrapper>
-          <div className="w-full h-screen flex flex-col sm:flex-row  overflow-hidden">
+          <div className="w-full h-screen flex flex-col sm:flex-row  overflow-hidden ">
             {/* <SidePopUpMessage /> */}
             <NavBar />
-            <div className=" flex-grow p-4 felx  relative h-screen  bg-secondary  overflow-auto -sm:order-1">
+            <div className=" flex-grow p-4  felx  relative h-screen  bg-secondary  overflow-auto -sm:order-1 ">
               {children}
             </div>
           </div>

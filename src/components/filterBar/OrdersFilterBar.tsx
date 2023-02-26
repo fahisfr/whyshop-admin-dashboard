@@ -56,11 +56,9 @@ export default function ProductsFilterBar({
 
 export function Skeleton() {
   return (
-    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
-      <div className=" max-w-xl"></div>
-      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2">
-     
-      </div>
+    <div className="w-full p-3 flex gap-3justify-evenly   gap-3 bg-white">
+      <div className=" w-40 rounded-lg skeleton skeleton h-10 "></div>
+      <div className=" w-full rounded-lg  skeleton h-10"></div>
     </div>
   );
 }

@@ -7,11 +7,12 @@ import getDate from "@/helper/getDate";
 import Link from "next/link";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsFillCheckCircleFill, BsXCircleFill } from "react-icons/bs";
-import OrdersFilterBar from "@/components/filterBar/OrdersFilterBar";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import TableBody from "@/components/skeleton/TableBody";
-
+import OrdersFilterBar, {
+  Skeleton as OrdersFilterBarSkeleton,
+} from "@/components/filterBar/OrdersFilterBar";
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -28,6 +29,10 @@ export default function Orders() {
       }
     },
   });
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
   return (
     <div className="h-full flex flex-col gap-4  bg-gray-100">
@@ -94,24 +99,16 @@ export default function Orders() {
                         </div>
                       )}
                     </td>
-                    <td>
+                    <td className="  text-center">
                       {order.paymentStatus === "paid" ? (
-                        <BsFillCheckCircleFill className=" text-primary text-center text-xl" />
+                        <BsFillCheckCircleFill className="  text-primary text-center text-xl" />
                       ) : (
                         <BsXCircleFill className=" text-red-600 text-center  text-xl" />
                       )}
                     </td>
                     <td>
-                      <div
-                        className="px-2 py-1 inline-block rounded-[10px]"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(to left, rgba(0, 128, 0, 0.849), #29c029)",
-                        }}
-                      >
-                        <span className=" text-white  font-medium">
-                          Picking
-                        </span>
+                      <div className="px-2 py-1 inline-block rounded-[6px]   bg-green-500">
+                        <span className=" text-white">{order.orderStatus}</span>
                       </div>
                     </td>
                     <td>
@@ -130,6 +127,30 @@ export default function Orders() {
       </div>
     </div>
   );
+}
 
-
+export function Skeleton() {
+  return (
+    <div className="h-full flex flex-col gap-4  bg-gray-100">
+      <OrdersFilterBarSkeleton />
+      <div className="w-full h-full overflow-scroll bg-white">
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Payment Type</th>
+              <th>Payment Status</th>
+              <th>Order Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <TableBody colCount={7} />
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
