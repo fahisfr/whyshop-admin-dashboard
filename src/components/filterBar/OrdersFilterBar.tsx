@@ -38,11 +38,11 @@ export default function ProductsFilterBar({
   }, [searchOrderId, selecedPaymentType, orders]);
 
   return (
-    <div className="w-full p-3 flex gap-3  justify-evenly  bg-white">
+    <div className="w-full p-3 flex gap-3  bg-theme-primary  justify-evenly   shadow">
       <div className=" max-w-xl">
         <Select options={paymentOptions} onSelect={setSelecedPaymentType} />
       </div>
-      <div className=" flex flex-grow  items-center  rounded-lg border border-gray-300 pr-2">
+      <div className=" flex flex-grow  bg-theme-secondary items-center  rounded-lg border border-gray-300 pr-2">
         <input
           className="w-full h-full pl-2  rounded-lg  outline-none "
           placeholder="Search order id ..."
@@ -56,7 +56,7 @@ export default function ProductsFilterBar({
 
 export function Skeleton() {
   return (
-    <div className="w-full p-3 flex gap-3justify-evenly   gap-3 bg-white">
+    <div className="w-full bg-theme-primary p-3 flex gap-3justify-evenly   gap-3 ">
       <div className=" w-40 rounded-lg skeleton skeleton h-10 "></div>
       <div className=" w-full rounded-lg  skeleton h-10"></div>
     </div>

@@ -1,9 +1,18 @@
-export interface User {
+export interface State {
   sidePopUpMessage: {
     trigger: boolean;
     error: boolean;
     message: string;
   };
+}
+
+export interface User {
+  _id: string;
+  name: string;
+  number: number;
+  role: string;
+  createAt: string;
+  orders: string[];
 }
 
 export interface Product {

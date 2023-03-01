@@ -42,7 +42,7 @@ export default function ProductsFilterBar({
   }, [searchText, selecedCategory, products]);
 
   return (
-    <div className="w-full p-3 flex gap-3  flex-shrink-0  justify-evenly  bg-white">
+    <div className="w-full p-3 flex gap-3 bg-theme-primary  flex-shrink-0  justify-evenly   shadow">
       <div className="w-32">
         <Select
           options={options}
@@ -50,13 +50,13 @@ export default function ProductsFilterBar({
           defaultOptionIndex={0}
         />
       </div>
-      <div className="flex flex-grow  items-center  rounded-lg border border-gray-400 pr-2 ">
+      <div className="flex flex-grow  items-center   rounded-lg border border-gray-400 pr-2 ">
         <input
           placeholder="Search..."
-          className="w-full h-full pl-2  rounded-lg  outline-none "
+          className="w-full h-full pl-2  rounded-lg   bg-transparent  outline-none "
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <AiOutlineSearch className=" text-2xl text-gray-500" />
+        <AiOutlineSearch className="  text-2xl text-gray-500" />
       </div>
       <Link href="/products/addProduct">
         <button className="bg-primary h-10 text-sm  rounded-md cursor-pointer  px-3 text-white  ">
@@ -69,7 +69,7 @@ export default function ProductsFilterBar({
 
 export function Skeleton() {
   return (
-    <div className="w-full p-3 flex gap-3  flex-shrink-0  justify-evenly  bg-white">
+    <div className="w-full p-3 flex bg-theme-primary gap-3  flex-shrink-0  justify-evenly  ">
       <div className="w-32 h-full skeleton rounded-ls"></div>
       <div className="flex flex-grow  skeleton rounded-lg  pr-2 "></div>
       <button className="w-24 skeleton h-10   rounded-md "></button>

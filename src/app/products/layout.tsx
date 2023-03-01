@@ -37,10 +37,10 @@ export default function Page({ children }: Props) {
   }
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 overflow-auto">
+    <>
       <ProductsFilterBar products={data?.products} setProducts={setProducts} />
-      <div className="max-h-full bg-white rounded-md  overflow-auto">
-        <table className="w-full h-full table-auto">
+      <div className="max-h-full bg-theme-primary rounded-md  overflow-auto">
+        <table className="table">
           <thead>
             <tr>
               <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
@@ -85,8 +85,8 @@ export default function Page({ children }: Props) {
                       </span>
                     </td>
                     <td>
-                      <div className=" inline-block bg-green-500 px-2 py-1 rounded-[10px]">
-                        <span className=" text-white text-sm capitalize ">
+                      <div className=" inline-block bg-green-500 text-white px-2 py-1 rounded-[10px]">
+                        <span className="  text-sm capitalize ">
                           {product.category}
                         </span>
                       </div>
@@ -122,7 +122,7 @@ export default function Page({ children }: Props) {
         </table>
       </div>
       {children}
-    </div>
+    </>
   );
 }
 
@@ -130,8 +130,8 @@ export function Skeleton() {
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-auto">
       <ProductFilterSkeleton />
-      <div className="max-h-full bg-white rounded-md  overflow-auto">
-        <table className="w-full h-full table-auto">
+      <div className="max-h-full  bg-theme-primary rounded-md  overflow-auto shadow">
+        <table className="table">
           <thead>
             <tr>
               <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">

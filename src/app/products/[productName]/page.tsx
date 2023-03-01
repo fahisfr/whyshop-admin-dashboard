@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import css from "../css.module.css";
+
 import Img from "next/image";
 import { imageUrl } from "@/helper/axios";
 import { Product, Image } from "@/helper/interface";
@@ -25,7 +25,7 @@ interface PageProps {
 
 export default function Page({ params: { productName } }: PageProps) {
   const router = useRouter();
-  const {  dispatch, reducerActionTypes } = getContext();
+  const { dispatch, reducerActionTypes } = getContext();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [product, setProduct] = useState<Product>({
     _id: "",
@@ -109,7 +109,7 @@ export default function Page({ params: { productName } }: PageProps) {
     });
   };
 
-  if (isLoading || isError ) {
+  if (isLoading || isError) {
     return <Skeleton />;
   }
 
@@ -120,7 +120,7 @@ export default function Page({ params: { productName } }: PageProps) {
           className="fixed  inset-0 backdrop-blur-sm  bg-black/10"
           onClick={() => router.push("/products")}
         ></div>
-        <div className="  w-full max-w-[50rem]  flex-shrink-0  relative bg-white  p-8 rounded-lg flex gap-8 -sm:flex-col">
+        <div className="  w-full max-w-[50rem]   bg-theme-primary  flex-shrink-0  relative   p-8 rounded-lg flex gap-8 -sm:flex-col">
           <div className="w-80  flex-shrink-0   -sm:w-full">
             <div
               className="h-full  border border-gray-400 rounded-lg flex items-center justify-center cursor-pointer relative -sm:w-full -sm:h-[15rem]  "
@@ -185,7 +185,7 @@ export default function Page({ params: { productName } }: PageProps) {
                 onClick={saveNow}
                 className={`${
                   btnLoading ? "opacity-50 cursor-wait" : ""
-                } px-4 py-2 rounded-lg bg-primary text-white w-full `}
+                } px-4 py-2 rounded-lg bg-primary  text-white w-full `}
               >
                 <span className="btn-text">Save</span>
               </button>
@@ -206,7 +206,7 @@ function Skeleton() {
           className="fixed  inset-0 backdrop-blur-sm bg-black/10 "
           onClick={() => router.push("/products")}
         ></div>
-        <div className="  w-full max-w-[50rem]    relative bg-white overflow-auto p-8 rounded-lg flex gap-8 -sm:flex-col">
+        <div className="  w-full max-w-[50rem]    relative  overflow-auto p-8 rounded-lg flex gap-8 -sm:flex-col">
           <div className="w-80  flex-shrink-0 -sm:w-full">
             <div className="h-full  skeleton rounded-lg -sm:w-full -sm:h-[15rem]  "></div>
           </div>

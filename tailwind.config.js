@@ -11,7 +11,8 @@ module.exports = {
     extend: {
       colors: {
         primary: " #61e761",
-        secondary: "#f4f4f4",
+        "theme-primary": "var(--bg-primary)",
+        "theme-secondary": "var(--bg-secondary)",
       },
       screens: {
         "-2xl": { max: "1535px" },
@@ -22,6 +23,7 @@ module.exports = {
       },
     },
   },
+  darkMode: "class",
   plugins: [],
-  mode: "jit",
+  // mode: "jit",
 };

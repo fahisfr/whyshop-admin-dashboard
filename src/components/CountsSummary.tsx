@@ -6,7 +6,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 export default function CountsSummary({ data }) {
   return (
     <div className="w-full flex gap-5 ">
-      <div className="w-36  h-20  grid grid-rows-2 grid-flow-col bg-primary text-white p-4 rounded-lg shadow-md items-center gap-1">
+      <div className="w-36  h-20  grid grid-rows-2 grid-flow-col bg-primary text-white  p-4 rounded-lg shadow-md items-center gap-1">
         <FiUsers className="text-3xl row-span-2" />
         <span className="  text-lg font-medium row-start-1">Users</span>
         <span className=" text-lg font-semibold row-start-2">

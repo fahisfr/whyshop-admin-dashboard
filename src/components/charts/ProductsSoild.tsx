@@ -48,7 +48,7 @@ export default function ProductsSold({ products }) {
     },
   };
   return (
-    <div className="chart_container bg-white rounded-lg p-4 w-full max-w-65">
+    <div className="  bg-theme-primary rounded-lg p-4 w-full max-w-65 shadow-lg">
       <div className=" border-gray-300 pb-1 flex justify-between">
         <span className="text-lg  font-semibold align-middle">
           Products Sold

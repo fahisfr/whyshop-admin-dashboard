@@ -35,10 +35,10 @@ export default function Orders() {
   }
 
   return (
-    <div className="h-full flex flex-col gap-4  bg-gray-100">
+    <>
       <OrdersFilterBar orders={data?.orders} setFilteredOrders={setOrders} />
-      <div className="w-full h-full overflow-scroll bg-white">
-        <table>
+      <div className="w-full h-full bg-theme-primary  overflow-auto ">
+        <table className="table">
           <thead>
             <tr>
               <th>Product</th>
@@ -58,13 +58,13 @@ export default function Orders() {
                 return (
                   <tr
                     key={index}
-                    className="bg-white shadow-md rounded-lg cursor-pointer overflow-scroll"
+                    className=" shadow-md rounded-lg cursor-pointer overflow-scroll"
                   >
                     <td className="os_products flex items-center justify-center gap-3  max-w-xs">
                       <div className=" w-full h-full px-4 flex overflow-auto">
                         {order.products.map((product) => {
                           return (
-                            <div className=" w-16 h-16 relative">
+                            <div className=" w-16 h-16 relative ">
                               <Image
                                 fill
                                 alt=""
@@ -88,14 +88,12 @@ export default function Orders() {
                     </td>
                     <td>
                       {order.paymentType === "online" ? (
-                        <div className=" rounded-[10px] py-1 px-2  bg-green-500/70  inline-block">
-                          <span className=" text-sm  text-white">ONLINE</span>
+                        <div className=" rounded-[10px] py-1 px-2  text-white  bg-green-500/70  inline-block">
+                          <span className=" text-sm ">ONLINE</span>
                         </div>
                       ) : (
-                        <div className="rounded-[10px] py-1 px-2 bg-red-400/70  inline-block">
-                          <span className=" text-sm text-3  text-white">
-                            COD
-                          </span>
+                        <div className="rounded-[10px] py-1 px-2 bg-red-400/70 text-white inline-block">
+                          <span className=" text-sm text-3  ">COD</span>
                         </div>
                       )}
                     </td>
@@ -107,13 +105,13 @@ export default function Orders() {
                       )}
                     </td>
                     <td>
-                      <div className="px-2 py-1 inline-block rounded-[6px]   bg-green-500">
-                        <span className=" text-white">{order.orderStatus}</span>
+                      <div className="px-2 py-1 inline-block rounded-[6px] text-white   bg-green-500">
+                        <span className=" ">{order.orderStatus}</span>
                       </div>
                     </td>
                     <td>
-                      <Link href={`/order/${order._id}`}>
-                        <button className="btn bg-white text-gray-800 border border-gray-400 rounded-md  p-2 flex items-center justify-center hover:bg-gray-200">
+                      <Link href={`/orders/${order._id}`}>
+                        <button className="btn  text-gray-800 border border-gray-400 rounded-md  p-2 flex items-center justify-center hover:bg-gray-200">
                           <AiOutlineEdit className="icon_edit text-gray-700 text-sm" />
                         </button>
                       </Link>
@@ -125,16 +123,16 @@ export default function Orders() {
           </tbody>{" "}
         </table>
       </div>
-    </div>
+    </>
   );
 }
 
 export function Skeleton() {
   return (
-    <div className="h-full flex flex-col gap-4  bg-gray-100">
+    <div className="h-full flex flex-col gap-4   bg-theme-primary">
       <OrdersFilterBarSkeleton />
-      <div className="w-full h-full overflow-scroll bg-white">
-        <table>
+      <div className="w-full h-full overflow-scroll ">
+        <table className="table">
           <thead>
             <tr>
               <th>Product</th>

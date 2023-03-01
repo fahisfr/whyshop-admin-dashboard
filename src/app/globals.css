@@ -6,26 +6,25 @@
 
 :root {
   --color-primary: #61e761;
-
-  /* --bg-primary: #000000;
-  --bg-secondary: #15181c;
-  --text-color-primary: white; */
-
-  --bg-primary: #ffffff;
+  --bg-primary: white;
   --bg-secondary: #f4f4f4;
-  --text-color-primary: black;
-  --border-radius: 8px;
-  --just-loading: just-loading;
 }
+
+[class="dark"] {
+  --bg-primary: black;
+  --bg-secondary: #15181c;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "Roboto", sans-serif;
 }
 
 html,
 body {
-  font-family: "Roboto", sans-serif;
+  @apply bg-white text-black dark:bg-black  dark:text-white;
 }
 
 a {
@@ -34,7 +33,7 @@ a {
 }
 
 .pt-input {
-  @apply w-full rounded-md border border-gray-400 h-10 px-3 text-base outline-none;
+  @apply w-full rounded-md border bg-theme-secondary border-gray-400 h-10 px-3 text-base outline-none;
 }
 
 .btn:disabled {
@@ -66,15 +65,21 @@ a {
   display: none;
 }
 
-table {
+.table {
   width: 100%;
+  position: relative;
   border-collapse: separate;
 }
-table thead tr th {
+.table thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-primary);
+}
+.table thead tr th {
   text-transform: uppercase;
   letter-spacing: 0.025em;
   text-align: start;
-  border: 1px solid #f0f3f4;
+  border: 1px solid var(--bg-secondary);
   border-left: none;
   border-right: none;
   font-size: 12px;

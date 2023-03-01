@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import ProductSold from "../components/charts/ProductsSoild";
@@ -10,9 +9,10 @@ import CountsSummary, {
 import OrdersChart, {
   OrdersChartSkeleton,
 } from "@/components/charts/OrdersChart";
-import Confirmation from "@/components/Confirmation";
+
 
 export default function Home() {
+
   const fetchPerformanceData = async () => {
     const { data } = await axios.get("/admin/dashbord");
     return data;
@@ -25,20 +25,19 @@ export default function Home() {
 
   if (isLoading || isError) {
     return (
-      <div className="flex flex-col gap-4">
+      <>
         <CountsSummarySkeleton />
         <OrdersChartSkeleton />
         <OrdersChartSkeleton />
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
-
+    <>
       <CountsSummary data={data} />
       <OrdersChart />
       <ProductSold products={data.soldProductDetails} />
-    </div>
+    </>
   );
 }

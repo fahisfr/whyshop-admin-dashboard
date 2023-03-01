@@ -2,10 +2,7 @@ interface Props {
   rowCount?: number;
   colCount?: number;
 }
-export default function TableBody({
-  rowCount = 10,
-  colCount = 5,
-}: Props) {
+export default function TableBody({ rowCount = 10, colCount = 5 }: Props) {
   return (
     <>
       {new Array(rowCount).fill(1).map((item, index) => {
@@ -14,7 +11,7 @@ export default function TableBody({
             {new Array(colCount).fill(1).map((item, index) => {
               return (
                 <td key={index}>
-                  <div className="os-td-skeleton skeleton"></div>
+                  <div className=" os-td-skeleton skeleton"></div>
                 </td>
               );
             })}

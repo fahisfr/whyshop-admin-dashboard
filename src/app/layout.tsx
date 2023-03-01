@@ -17,7 +17,7 @@ export default function RootLayout({
           <div className="w-full h-screen flex flex-col sm:flex-row  overflow-hidden ">
             {/* <SidePopUpMessage /> */}
             <NavBar />
-            <div className=" flex-grow p-4  felx  relative h-screen  bg-secondary  overflow-auto -sm:order-1 ">
+            <div className=" flex-grow p-4 flex flex-col gap-4 bg-theme-secondary  h-screen  overflow-auto -sm:order-1 ">
               {children}
             </div>
           </div>

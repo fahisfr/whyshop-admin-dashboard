@@ -72,7 +72,7 @@ export default function Page() {
         className="fixed  inset-0"
         onClick={() => router.push("/products")}
       ></div>
-      <div className="w-[50rem]  max-w-[90%] max-h-[95%]  relative  overflow-auto p-8 rounded-lg flex gap-5 bg-white -sm:flex-col">
+      <div className="w-[50rem]  bg-theme-primary  relative  overflow-auto p-8 rounded-lg flex gap-5  -sm:flex-col">
         <div className="w-80 flex -sm:w-full">
           <div
             onDrop={handleOnDrop}
@@ -101,7 +101,7 @@ export default function Page() {
           <div className="flex flex-col">
             <label className="text-base font-medium">Name</label>
             <input
-              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
+              className="pt-input"
               value={newProductInfo.name}
               name="name"
               onChange={handleChange}
@@ -118,7 +118,7 @@ export default function Page() {
           <div className="flex flex-col">
             <label className="text-base font-medium">Price</label>
             <input
-              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
+              className="pt-input"
               value={newProductInfo.price}
               name="price"
               type="number"
@@ -128,7 +128,7 @@ export default function Page() {
           <div className="flex flex-col">
             <label className="text-base font-medium">Quantity</label>
             <input
-              className="rounded-md border border-gray-400 h-10 px-3 text-base outline-none"
+              className="pt-input"
               name="quantity"
               type="number"
               onChange={handleChange}
