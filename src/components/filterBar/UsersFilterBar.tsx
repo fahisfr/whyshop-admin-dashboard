@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "../Select";
 import { AiOutlineSearch } from "react-icons/ai";
 import { User } from "@/helper/interface";
-const options = [
-  {
-    label: "All Users",
-    value: "all",
-  },
-  {
-    label: "Admin",
-    value: "admin",
-  },
-];
+import { roles } from "@/helper/selectOptions";
 
 interface Props {
   users: User[];
@@ -38,19 +29,30 @@ export default function UsersFilterBar({ users, setUsers }: Props) {
   });
 
   return (
-    <div className=" p-4 rounded-sm flex w-full gap-4 bg-theme-primary">
+    <div className=" p-4 rounded flex w-full gap-4 bg-theme-primary">
       <div className=" max-w-lg">
-        <Select options={options} onSelect={setFilterdRole} />
+        <Select options={roles} onSelect={setFilterdRole} />
       </div>
-      <div className=" flex flex-grow  bg-theme-secondary items-center  rounded-lg border border-gray-300 pr-2">
+      <div className=" flex flex-grow   bg-theme-primary items-center  rounded-lg border border-gray-300 pr-2">
         <input
-          className="w-full h-full pl-2  rounded-lg  outline-none "
+          className="w-full h-full pl-2  rounded-lg bg-theme-primary  outline-none "
           type="number"
           placeholder="Search number ..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <AiOutlineSearch className=" text-2xl" />
+      </div>
+    </div>
+  );
+}
+
+export function Skeleton() {
+  return (
+    <div className=" p-4 rounded flex w-full gap-4 bg-theme-primary">
+      <div className=" skeleton h-10  w-24 rounded-lg"></div>
+      <div className=" flex flex-grow    rounded-lg border border-gray-300 ">
+        <div className="w-full h-full  skeleton  rounded-lg  " />
       </div>
     </div>
   );

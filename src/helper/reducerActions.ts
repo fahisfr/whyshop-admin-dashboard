@@ -1,15 +1,14 @@
-import { User } from "./interface";
-interface ReducerAction extends User {
+import { State, } from "./interface";
+interface ReducerAction  {
   type: string;
   payload: any;
 }
 export const reducerActionTypes = {
-
   TRIGGER_SIDE_POPUP_MESSAGE: "TRIGGER_SIDE_POPUP_MESSAGE",
   CLOSE_SIDE_POPUP_MESSAGE: "CLOSE_SIDE_POPUP_MESSAGE",
 };
 
-export default (state: User, { type, payload }: ReducerAction) => {
+export default (state: State, { type, payload }: ReducerAction) => {
   switch (type) {
     case reducerActionTypes.TRIGGER_SIDE_POPUP_MESSAGE:
       return {

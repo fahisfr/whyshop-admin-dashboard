@@ -3,13 +3,7 @@ import { Product } from "@/helper/interface";
 import Select from "@/components/Select";
 import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
-
-const options = [
-  { value: "all", label: "All Category" },
-  { value: "vegetables", label: "Vegetables" },
-  { value: "fruits", label: "Fruits" },
-  { value: "sweets", label: "Sweets" },
-];
+import { productsCatgeory } from "@/helper/selectOptions";
 
 interface FilterBarProps {
   products: Product[];
@@ -42,15 +36,15 @@ export default function ProductsFilterBar({
   }, [searchText, selecedCategory, products]);
 
   return (
-    <div className="w-full p-3 flex gap-3 bg-theme-primary  flex-shrink-0  justify-evenly   shadow">
+    <div className="w-full p-3  rounded flex gap-3 bg-theme-primary  flex-shrink-0  justify-evenly   shadow">
       <div className="w-32">
         <Select
-          options={options}
+          options={productsCatgeory}
           onSelect={setSelecedCategory}
           defaultOptionIndex={0}
         />
       </div>
-      <div className="flex flex-grow  items-center   rounded-lg border border-gray-400 pr-2 ">
+      <div className="flex flex-grow  items-center rounded-lg border border-gray-400 pr-2 ">
         <input
           placeholder="Search..."
           className="w-full h-full pl-2  rounded-lg   bg-transparent  outline-none "

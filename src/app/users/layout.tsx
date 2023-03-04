@@ -3,10 +3,14 @@
 import { useState } from "react";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
-import UsersFilterBar from "@/components/filterBar/UsersFilterBar";
+import UsersFilterBar, {
+  Skeleton as UsersFilterBarSkeleton,
+} from "@/components/filterBar/UsersFilterBar";
 import { User } from "@/helper/interface";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import Link from "next/link";
+import TableBody from "@/components/skeleton/TableBody";
+
 interface Props {
   children: React.ReactNode;
 }
@@ -20,8 +24,8 @@ export default function page({ children }: Props) {
 
   const { isLoading, isError, data } = useQuery(["users"], fetchUsers);
 
-  if (isLoading) {
-    return <div>Loading</div>;
+  if (isLoading ) {
+    return <Skeleton />;
   } else if (isError) {
     return <div>{isError}</div>;
   }
@@ -29,14 +33,14 @@ export default function page({ children }: Props) {
   return (
     <>
       <UsersFilterBar users={data.users} setUsers={setUsers} />
-      <div className="bg-theme-primary">
-        <table className="table">
+      <div className="overflow-auto">
+        <table className="table ">
           <thead>
             <tr>
               <th>Number</th>
               <th>Role</th>
               <th>Created</th>
-              <th>totalOrders</th>
+              <th>Orders</th>
               <th></th>
             </tr>
           </thead>
@@ -49,7 +53,6 @@ export default function page({ children }: Props) {
                   <td>{user.createAt}</td>
                   <td>{user.orders.length}</td>
                   <td>
-                    {" "}
                     <div className="flex gap-2">
                       <Link href={`/users/${user._id}`}>
                         <button className=" px-1 py-[6px] border border-green-600 text-green-600 rounded hover:bg-green-600 hover:text-white transition duration-300">
@@ -69,6 +72,30 @@ export default function page({ children }: Props) {
         </table>
       </div>
       {children}
+    </>
+  );
+}
+
+function Skeleton() {
+  return (
+    <>
+      <UsersFilterBarSkeleton />
+      <div className="overflow-auto">
+        <table className="table ">
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Orders</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <TableBody colCount={5} />
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

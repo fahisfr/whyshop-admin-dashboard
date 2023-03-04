@@ -7,6 +7,7 @@ export interface State {
 }
 
 export interface User {
+
   _id: string;
   name: string;
   number: number;

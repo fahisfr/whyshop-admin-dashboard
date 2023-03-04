@@ -9,7 +9,7 @@ import { BiImageAdd } from "react-icons/bi";
 import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
-import { getContext } from "@/helper/context";
+import { useAppContext } from "@/helper/context";
 
 const options = [
   { value: "Vegetable", label: "Vegetable" },
@@ -25,7 +25,7 @@ interface PageProps {
 
 export default function Page({ params: { productName } }: PageProps) {
   const router = useRouter();
-  const { dispatch, reducerActionTypes } = getContext();
+  const { dispatch, reducerActionTypes } = useAppContext();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [product, setProduct] = useState<Product>({
     _id: "",
@@ -35,7 +35,7 @@ export default function Page({ params: { productName } }: PageProps) {
     category: "",
     imageName: "",
   });
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [newImage, setnewImage] = useState<Image>({
     file: null,
     preview: "",
@@ -93,13 +93,12 @@ export default function Page({ params: { productName } }: PageProps) {
       `/admin/product/edit-product/${product._id}`,
       formData
     );
-
-    if (data.status === "ok") {
-      triggerSidePopUpMessage(false, data.message);
-    } else if (data.status === "error") {
-      triggerSidePopUpMessage(true, data.message);
-    }
     setBtnLoading(false);
+    if (data.status === "error") {
+      triggerSidePopUpMessage(true, data.message);
+      return;
+    }
+    triggerSidePopUpMessage(false, data.message);
   };
 
   const triggerSidePopUpMessage = (error: boolean, message: string) => {
@@ -114,13 +113,13 @@ export default function Page({ params: { productName } }: PageProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-auto">
-      <div className=" p-4  min-h-screen    flex items-center justify-center ">
+    <div className="fixed inset-0 z-50 overflow-auto">
+      <div className=" p-4 min-h-full flex items-center justify-center ">
         <div
           className="fixed  inset-0 backdrop-blur-sm  bg-black/10"
           onClick={() => router.push("/products")}
         ></div>
-        <div className="  w-full max-w-[50rem]   bg-theme-primary  flex-shrink-0  relative   p-8 rounded-lg flex gap-8 -sm:flex-col">
+        <div className="  w-full max-w-[50rem]   bg-white dark:bg-theme-secondary   flex-shrink-0  relative   p-8 rounded-lg flex gap-8 -sm:flex-col">
           <div className="w-80  flex-shrink-0   -sm:w-full">
             <div
               className="h-full  border border-gray-400 rounded-lg flex items-center justify-center cursor-pointer relative -sm:w-full -sm:h-[15rem]  "
@@ -158,12 +157,16 @@ export default function Page({ params: { productName } }: PageProps) {
             </div>
             <div>
               <label className="">Category</label>
-              <Select options={options} onSelect={(value: string) => {}} />
+              <Select
+                options={options}
+                onSelect={(value: string) => {}}
+                backgroundColor="bg-theme-secondary"
+              />
             </div>
             <div>
               <label className="">Price</label>
               <input
-                className="pt-input"
+                className="pt-input "
                 value={product.price}
                 name="price"
                 type="number"
@@ -180,12 +183,10 @@ export default function Page({ params: { productName } }: PageProps) {
                 value={product.quantity}
               />
             </div>
-            <div className=" flex gap-4 justify-end">
+            <div className={`${btnLoading && "btn-loading "}`}>
               <button
                 onClick={saveNow}
-                className={`${
-                  btnLoading ? "opacity-50 cursor-wait" : ""
-                } px-4 py-2 rounded-lg bg-primary  text-white w-full `}
+                className={`btn px-4 py-2 rounded-lg bg-primary h-10  text-white w-full `}
               >
                 <span className="btn-text">Save</span>
               </button>

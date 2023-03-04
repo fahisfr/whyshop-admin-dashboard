@@ -1,10 +1,9 @@
-import styles from "./css.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { useQuery } from "react-query";
 import axios from "../../helper/axios";
-import { Option } from "@/helper/interface";
+import { ordersDateRangeOptions } from "@/helper/selectOptions";
 import Select from "../Select";
 import { days as weekDays, months } from "@/helper/daysAndMonths";
 
@@ -25,33 +24,6 @@ interface ChartData {
   borderColor?: string;
   tension?: number;
 }
-
-const options: Option[] = [
-  {
-    value: 7,
-    label: "Last week",
-  },
-  {
-    value: 30,
-    label: "Last 30 days",
-  },
-  {
-    value: 90,
-    label: "Last 3 months",
-  },
-  {
-    value: 182,
-    label: "Last 6 months",
-  },
-  {
-    value: 270,
-    label: "Last 9 months",
-  },
-  {
-    value: 365,
-    label: "Last year",
-  },
-];
 
 export default function OrdersChart() {
   const [days, setDays] = useState<number>(7);
@@ -156,12 +128,12 @@ export default function OrdersChart() {
   }
 
   return (
-    <div className="p-4 rounded-lg w-full bg-theme-primary max-w-65  shadow">
+    <div className="p-4 rounded-lg w-full bg-theme-primary max-w-65  shadow-sm">
       <div className="flex justify-between  pb-1">
         <h2 className="text-lg font-semibold align-middle">Orders</h2>
         <div className="">
           <Select
-            options={options}
+            options={ordersDateRangeOptions}
             defaultOptionIndex={0}
             onSelect={(value) => setDays(value)}
           />
@@ -175,7 +147,7 @@ export default function OrdersChart() {
 export function OrdersChartSkeleton() {
   return (
     <div className="p-4 rounded-lg w-full max-w-65 bg-theme-primary ">
-      <div className="flex  justify-between border-b-2 border-gray-300 pb-5">
+      <div className="flex  justify-between  pb-5">
         <div className="w-40 h-8 skeleton"></div>
         <div className="w-40 h-8 skeleton"></div>
       </div>

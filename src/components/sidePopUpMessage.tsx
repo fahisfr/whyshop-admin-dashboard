@@ -4,16 +4,16 @@ import styles from "./css.module.css";
 import { BiError } from "react-icons/bi";
 import { BsCheckCircle } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
-import { getContext } from "@/helper/context";
+import { useAppContext } from "@/helper/context";
 export default function sidePopUpMessage() {
-  const { state, dispatch, reducerActionTypes } = getContext();
+  const { state, dispatch, reducerActionTypes } = useAppContext();
   const { trigger, error, message } = state.sidePopUpMessage;
   const close = () => {
     dispatch({ type: reducerActionTypes.CLOSE_SIDE_POPUP_MESSAGE });
   };
   return (
     <div
-      className={`fixed  right-2  top-3 max-w-sm rounded-lg z-[999] transition-all duration-300 ${
+      className={`fixed  right-0  top-3 max-w-sm rounded-lg z-[999] transition-all duration-300 ${
         trigger ? " translate-x-0" : "translate-x-full "
       } ${error ? "bg-red-500" : "bg-green-500"}`}
     >

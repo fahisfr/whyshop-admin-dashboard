@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
+import { Product } from "@/helper/interface";
 interface DataSets {
   label: string;
   data: number[];
@@ -11,7 +12,11 @@ interface ChartData {
   datasets: DataSets[];
 }
 
-export default function ProductsSold({ products }) {
+interface Props {
+  products: Product[];
+}
+
+export default function ProductsSold({ products }: Props) {
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -48,7 +53,7 @@ export default function ProductsSold({ products }) {
     },
   };
   return (
-    <div className="  bg-theme-primary rounded-lg p-4 w-full max-w-65 shadow-lg">
+    <div className="  bg-theme-primary rounded-lg p-4 w-full max-w-65 shadow-sm">
       <div className=" border-gray-300 pb-1 flex justify-between">
         <span className="text-lg  font-semibold align-middle">
           Products Sold

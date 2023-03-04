@@ -1,5 +1,4 @@
 "use client";
-
 import { imageUrl } from "@/helper/axios";
 import React, { useState } from "react";
 import Image from "next/image";
@@ -12,6 +11,7 @@ import { BiPackage } from "react-icons/bi";
 import { BsBagCheck } from "react-icons/bs";
 import { RiEBike2Fill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
+import { useAppContext } from "@/helper/context";
 interface PageProps {
   params: {
     id: string;
@@ -36,6 +36,7 @@ const orderStatus = [
   },
 ];
 export default function Page({ params: { id } }: PageProps) {
+  const { triggerSidePopUpMessage } = useAppContext();
   const [nextStepBtnLoading, setNextStepBtnLoading] = useState<boolean>(false);
   const [previousBtnLoading, setPreviousBtnLoading] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -75,16 +76,17 @@ export default function Page({ params: { id } }: PageProps) {
           status: "ok",
           order: updatedOrderInfo,
         });
+        triggerSidePopUpMessage(false, data.message);
       } else if (data.status === "error") {
-        alert("error");
+        triggerSidePopUpMessage(true, data.message);
       }
     }
   };
 
   return (
-    <div className="w-ful h-auto flex gap-4 bg-theme-primary -lg:items-center -lg:justify-center  -lg:flex-col lg:h-full   ">
-      <div className=" w-full h-full mb-auto  p-1 pt-0 overflow-auto shadow  -lg:max-h-[25rem] ">
-        <table className="table">
+    <div className="w-ful h-auto flex gap-4  -lg:items-center -lg:justify-center  -lg:flex-col lg:h-full   ">
+      <div className=" w-full h-full mb-auto  p-1 pt-0   overflow-auto shadow  -lg:max-h-[25rem] ">
+        <table className="table rounded">
           <thead>
             <tr>
               <th>Name</th>
@@ -105,7 +107,7 @@ export default function Page({ params: { id } }: PageProps) {
                         fill
                         alt=""
                         objectFit="contain"
-                        src={`${imageUrl}/${product.imageName}.jpg`}
+                        src={`${imageUrl}/${product.imageName}`}
                       />
                     </div>
                     <span>{product.name}</span>
@@ -123,7 +125,7 @@ export default function Page({ params: { id } }: PageProps) {
         </table>
       </div>
 
-      <div className="w-full  mb-auto  flex   flex-col p-4  gap-3  shadow lg:max-w-lg ">
+      <div className="w-full  mb-auto  bg-theme-primary rounded-md flex flex-col p-4  gap-3  shadow lg:max-w-lg ">
         <div className="flex   justify-between p-2 border border-gray-400  rounded">
           <span>ID</span>
           <span>{order._id}</span>
@@ -132,20 +134,20 @@ export default function Page({ params: { id } }: PageProps) {
           <span>Payment Type</span>
           <span>{order.paymentType}</span>
         </div>
-        <div className="flex bg-theme-secondary   justify-between p-2 border border-gray-400  rounded">
+        <div className="flex  justify-between p-2 border border-gray-400  rounded">
           <span>Payment Status</span>
           <span>{order.paymentStatus}</span>
         </div>
-        <div className="flex  bg-theme-secondary  justify-between p-2 border border-gray-400  rounded">
+        <div className="flex  justify-between p-2 border border-gray-400  rounded">
           <span>Total Price</span>
           <span>₹{order.totalPrice}</span>
         </div>
 
-        <div className="flex  bg-theme-secondary  justify-between p-2 border border-gray-400  rounded">
+        <div className="flex  justify-between p-2 border border-gray-400  rounded">
           <span>Payment Id</span>
           <span>{order.paymentId}</span>
         </div>
-        <div className="flex  bg-theme-secondary justify-between p-2 border border-gray-400  rounded">
+        <div className="flex justify-between p-2 border border-gray-400  rounded">
           <span>OrderAt</span>
           <span>{getDate(order.orderAt)}</span>
         </div>
@@ -211,7 +213,7 @@ export default function Page({ params: { id } }: PageProps) {
 
 export function Skeleton() {
   return (
-    <div className="w-ful h-auto bg-theme-primary flex gap-4 -lg:items-center -lg:justify-center  -lg:flex-col lg:h-full   ">
+    <div className="w-ful h-auto  flex gap-4 -lg:items-center -lg:justify-center  -lg:flex-col lg:h-full   ">
       <div className=" w-full h-full mb-auto  p-1 pt-0 overflow-auto shadow  -lg:max-h-[25rem] ">
         <table className="table">
           <thead>
@@ -227,7 +229,7 @@ export function Skeleton() {
         </table>
       </div>
 
-      <div className="w-full  mb-auto  flex   flex-col p-4  gap-3  shadow lg:max-w-lg ">
+      <div className="w-full  mb-auto bg-theme-primary  flex   flex-col p-4  gap-3  shadow lg:max-w-lg ">
         <div className="skeleton h-11  rounded"></div>
         <div className="skeleton h-11  rounded"></div>
         <div className="skeleton h-11  rounded"></div>

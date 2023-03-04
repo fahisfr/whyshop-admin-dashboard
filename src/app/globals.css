@@ -14,16 +14,22 @@
   --bg-primary: black;
   --bg-secondary: #15181c;
 }
-
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
 }
 
 html,
 body {
+  font-family: "Roboto", sans-serif;
   @apply bg-white text-black dark:bg-black  dark:text-white;
 }
 
@@ -32,6 +38,25 @@ a {
   text-decoration: none;
 }
 
+.theme-toggle-label {
+  position: relative;
+  padding: 3px;
+  transition: all 0.4 ease-in-out;
+}
+.theme-toggle-label::after {
+  content: "";
+  width: 2rem;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  border-radius: 50%;
+  background-color: yellow;
+}
+.in:checked + .theme-toggle-label::after {
+  transform: translateX(100%);
+  background-color: red;
+}
 .pt-input {
   @apply w-full rounded-md border bg-theme-secondary border-gray-400 h-10 px-3 text-base outline-none;
 }
@@ -69,10 +94,13 @@ a {
   width: 100%;
   position: relative;
   border-collapse: separate;
+  background-color: var(--bg-primary);
+  border-radius: 4px;
 }
 .table thead {
   position: sticky;
   top: 0;
+  z-index: 5;
   background-color: var(--bg-primary);
 }
 .table thead tr th {
@@ -87,7 +115,6 @@ a {
 }
 
 table > :not(caption) > * > * {
-  border-bottom-width: 1px;
   padding: 1rem 1.5rem;
 }
 
@@ -141,7 +168,7 @@ table > :not(caption) > * > * {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: rgba(202, 202, 7, 0.884);
+  background-color: rgb(173, 173, 20);
   margin-bottom: 6px;
 }
 

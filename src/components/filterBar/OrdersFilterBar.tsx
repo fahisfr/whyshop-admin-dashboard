@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Order } from "@/helper/interface";
 import Select from "@/components/Select";
 import { AiOutlineSearch } from "react-icons/ai";
-
-const paymentOptions = [
-  { value: "all", label: "All Payment Types" },
-  { value: "cod", label: "Cash on Delivery" },
-  { value: "online", label: "Online Payment" },
-];
+import { paymentTypes } from "@/helper/selectOptions";
 
 interface FilterBarProps {
   orders: Order[];
@@ -38,13 +33,13 @@ export default function ProductsFilterBar({
   }, [searchOrderId, selecedPaymentType, orders]);
 
   return (
-    <div className="w-full p-3 flex gap-3  bg-theme-primary  justify-evenly   shadow">
-      <div className=" max-w-xl">
-        <Select options={paymentOptions} onSelect={setSelecedPaymentType} />
+    <div className="w-full p-3 flex gap-3 rounded bg-theme-primary  justify-evenly   shadow">
+      <div className=" max-w-xl ">
+        <Select options={paymentTypes} onSelect={setSelecedPaymentType} />
       </div>
-      <div className=" flex flex-grow  bg-theme-secondary items-center  rounded-lg border border-gray-300 pr-2">
+      <div className=" flex flex-grow  bg-theme-primary items-center  rounded-lg border border-gray-300 pr-2">
         <input
-          className="w-full h-full pl-2  rounded-lg  outline-none "
+          className="w-full h-full pl-2  bg-theme-primary rounded-lg  outline-none "
           placeholder="Search order id ..."
           onChange={(e) => setSearchOorderId(e.target.value)}
         />

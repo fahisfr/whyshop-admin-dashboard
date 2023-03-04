@@ -10,15 +10,31 @@ import axios from "@/helper/axios";
 import { useQuery } from "react-query";
 import TableBodySkeleton from "@/components/skeleton/TableBody";
 import Link from "next/link";
+import Confirmeation from "@/components/Confirmeation";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
 interface Props {
   children: React.ReactNode;
 }
+interface DeleteProduct {
+  confirm: boolean;
+  productInfo: Product;
+}
 
 export default function Page({ children }: Props) {
   const [products, setProducts] = useState<Product[]>([]);
+  const [deleteProduct, setDeleteProduct] = useState<DeleteProduct>({
+    confirm: false,
+    productInfo: {
+      name: "",
+      _id: "",
+      price: 0,
+      quantity: 0,
+      category: "",
+      imageName: "",
+    },
+  });
   const fetchProducts = async () => {
     const { data } = await axios.get("/product/all-products");
     return data;
@@ -39,25 +55,15 @@ export default function Page({ children }: Props) {
   return (
     <>
       <ProductsFilterBar products={data?.products} setProducts={setProducts} />
-      <div className="max-h-full bg-theme-primary rounded-md  overflow-auto">
+      <div className="overflow-auto">
         <table className="table">
           <thead>
             <tr>
-              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
-                Image
-              </th>
-              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
-                Name
-              </th>
-              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
-                Category
-              </th>
-              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
-                Price
-              </th>
-              <th className="text-left text-uppercase font-semibold text-xs border-b-2 border-frost-gray pb-2">
-                Total Quantity
-              </th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Total Quantity</th>
               <th></th>
             </tr>
           </thead>
@@ -104,12 +110,20 @@ export default function Page({ children }: Props) {
                     <td>
                       <div className="flex gap-2">
                         <Link href={`/products/${product.name}`}>
-                          <button className=" px-1 py-[6px] border border-green-600 text-green-600 rounded hover:bg-green-600 hover:text-white transition duration-300">
+                          <button className="px-1 py-[6px] border border-green-600 text-green-600 rounded hover:bg-green-600 hover:text-white transition duration-300">
                             <AiOutlineEdit className="text-lg  " />
                           </button>
                         </Link>
 
-                        <button className=" p-1  border border-red-600  text-red-600 rounded hover:bg-red-600 hover:text-white transition duration-300">
+                        <button
+                          onClick={() => {
+                            setDeleteProduct({
+                              confirm: true,
+                              productInfo: product,
+                            });
+                          }}
+                          className=" p-1  border border-red-600  text-red-600 rounded hover:bg-red-600 hover:text-white transition duration-300"
+                        >
                           <AiFillDelete className="text-lg  " />
                         </button>
                       </div>
@@ -121,6 +135,28 @@ export default function Page({ children }: Props) {
           </tbody>
         </table>
       </div>
+      {deleteProduct.confirm && (
+        <Confirmeation
+          onConfirm={() => {
+            alert("hello");
+          }}
+          title={`to delete ${deleteProduct.productInfo.name}`}
+          confirmationText={`delete-${deleteProduct.productInfo.name}`}
+          onClose={() =>
+            setDeleteProduct({
+              confirm: false,
+              productInfo: {
+                name: "",
+                _id: "",
+                price: 0,
+                quantity: 0,
+                category: "",
+                imageName: "",
+              },
+            })
+          }
+        />
+      )}
       {children}
     </>
   );

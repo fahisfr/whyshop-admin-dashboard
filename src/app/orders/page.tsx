@@ -37,7 +37,7 @@ export default function Orders() {
   return (
     <>
       <OrdersFilterBar orders={data?.orders} setFilteredOrders={setOrders} />
-      <div className="w-full h-full bg-theme-primary  overflow-auto ">
+      <div className=" overflow-auto  rounded">
         <table className="table">
           <thead>
             <tr>
@@ -60,16 +60,16 @@ export default function Orders() {
                     key={index}
                     className=" shadow-md rounded-lg cursor-pointer overflow-scroll"
                   >
-                    <td className="os_products flex items-center justify-center gap-3  max-w-xs">
+                    <td className=" flex items-center justify-center gap-3  max-w-xs">
                       <div className=" w-full h-full px-4 flex overflow-auto">
                         {order.products.map((product) => {
                           return (
-                            <div className=" w-16 h-16 relative ">
+                            <div className="min-w-[4rem] min-h-[4rem] relative ">
                               <Image
                                 fill
                                 alt=""
                                 objectFit="contain"
-                                src={`${imageUrl}/${product.imageName}.jpg`}
+                                src={`${imageUrl}/${product.imageName}`}
                               />
                             </div>
                           );
@@ -77,22 +77,22 @@ export default function Orders() {
                       </div>
                     </td>
                     <td>
-                      <span className="date text-sm text-gray-700">
+                      <span className="date text-sm ">
                         {getDate(order.orderAt)}
                       </span>
                     </td>
                     <td>
-                      <span className="price text-sm text-gray-700">
+                      <span className="price text-sm ">
                         ₹{order.totalPrice}
                       </span>
                     </td>
                     <td>
                       {order.paymentType === "online" ? (
-                        <div className=" rounded-[10px] py-1 px-2  text-white  bg-green-500/70  inline-block">
+                        <div className=" rounded-[10px] py-1 px-2  text-white  bg-green-600/80  inline-block">
                           <span className=" text-sm ">ONLINE</span>
                         </div>
                       ) : (
-                        <div className="rounded-[10px] py-1 px-2 bg-red-400/70 text-white inline-block">
+                        <div className="rounded-[10px] py-1 px-2 bg-red-600/80 text-white inline-block">
                           <span className=" text-sm text-3  ">COD</span>
                         </div>
                       )}
@@ -106,13 +106,15 @@ export default function Orders() {
                     </td>
                     <td>
                       <div className="px-2 py-1 inline-block rounded-[6px] text-white   bg-green-500">
-                        <span className=" ">{order.orderStatus}</span>
+                        <span className="capitalize">
+                          {order.orderStatus}
+                        </span>
                       </div>
                     </td>
                     <td>
                       <Link href={`/orders/${order._id}`}>
-                        <button className="btn  text-gray-800 border border-gray-400 rounded-md  p-2 flex items-center justify-center hover:bg-gray-200">
-                          <AiOutlineEdit className="icon_edit text-gray-700 text-sm" />
+                        <button className="btn border border-green-600  text-green-600 rounded  p-2  flex items-center justify-center hover:bg-green-600 hover:text-white transition duration-300">
+                          <AiOutlineEdit className=" text-sm" />
                         </button>
                       </Link>
                     </td>
@@ -120,7 +122,7 @@ export default function Orders() {
                 );
               })
             )}
-          </tbody>{" "}
+          </tbody>
         </table>
       </div>
     </>
@@ -129,7 +131,7 @@ export default function Orders() {
 
 export function Skeleton() {
   return (
-    <div className="h-full flex flex-col gap-4   bg-theme-primary">
+    <>
       <OrdersFilterBarSkeleton />
       <div className="w-full h-full overflow-scroll ">
         <table className="table">
@@ -149,6 +151,6 @@ export function Skeleton() {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }

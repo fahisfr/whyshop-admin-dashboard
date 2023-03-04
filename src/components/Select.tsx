@@ -8,6 +8,7 @@ interface SelectProps {
   onSelect: (value: string) => void;
   placeHolder?: string;
   defaultOptionIndex?: number;
+  backgroundColor?: string;
 }
 
 export default function Select({
@@ -15,6 +16,7 @@ export default function Select({
   onSelect,
   placeHolder = "Select...",
   defaultOptionIndex,
+  backgroundColor = "bg-theme-primary",
 }: SelectProps) {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
@@ -28,7 +30,7 @@ export default function Select({
   return (
     <div className="relative w-full  ">
       <div
-        className="w-full flex items-center bg-theme-secondary  justify-between border border-gray-300 rounded px-2 h-10 gap-1 cursor-pointer"
+        className={` ${backgroundColor} w-full flex items-center   justify-between border border-gray-300 rounded px-2 h-10 gap-1 cursor-pointer`}
         onClick={() => setShowOptions(!showOptions)}
       >
         {selectedOption ? (
@@ -51,7 +53,9 @@ export default function Select({
         />
       </div>
       {showOptions && (
-        <div className="absolute  top-full bg-theme-secondary w-full border border-gray-400 rounded  z-10">
+        <div
+          className={` ${backgroundColor} absolute  top-full  w-full border border-gray-400 rounded  z-10`}
+        >
           {options.map((option, index) => {
             return (
               <div

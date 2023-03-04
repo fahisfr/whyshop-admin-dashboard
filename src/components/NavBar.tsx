@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
 import { RxDashboard } from "react-icons/rx";
-import { GrShop } from "react-icons/gr";
+import { BsFillBasket3Fill } from "react-icons/bs";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { FaUserFriends } from "react-icons/fa";
+import { BsSunFill } from "react-icons/bs";
+
 export default function NavBar() {
   const pathName = usePathname();
   const { setTheme, theme } = useTheme();
@@ -16,7 +18,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="flex flex-col  -sm:order-2 px-6 py-4 sm:gap-40    shadow-md -sm:items-center">
+    <div className=" h-screen  overflow-auto  flex gap-1 flex-col sm:justify-between -sm:order-2 px-6 py-4 flex-shrink-0  shadow-md -sm:items-center">
       <div>
         <h1 className="text-2xl hidden lg:block  text-primary  ">
           WhyShop Admin
@@ -41,7 +43,7 @@ export default function NavBar() {
               pathName?.startsWith("/products") && "  text-white bg-primary"
             } flex rounded-full items-center lg:rounded-lg p-3 lg:gap-5   shadow-md`}
           >
-            <GrShop className="text-3xl" />
+            <BsFillBasket3Fill className="text-3xl" />
             <span className="text-lg lg:block  hidden font-medium">
               Products
             </span>
@@ -66,11 +68,22 @@ export default function NavBar() {
             <FaUserFriends className=" text-3xl" />
             <span className="text-lg lg:block  hidden font-medium">Users</span>
           </div>
-        </Link>
+        </Link>{" "}
+      </div>{" "}
+      <div className="w-full">
+        <input
+          type="checkbox"
+          id="theme-toggle"
+          onChange={changeTheme}
+          className="in hidden"
+        />
+        <label
+          htmlFor="theme-toggle"
+          className="theme-toggle-label w-[4rem] h-8  rounded-3xl flex bg-white"
+        >
+          <BsSunFill />
+        </label>
       </div>
-      <button onClick={changeTheme} className="bg-primary h-10 rounded-md">
-        Change Theme
-      </button>
     </div>
   );
 }
