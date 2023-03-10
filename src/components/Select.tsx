@@ -5,7 +5,7 @@ import { BsChevronDown } from "react-icons/bs";
 
 interface SelectProps {
   options: Option[];
-  onSelect: (value: string) => void;
+  onSelect: (option: Option) => void;
   placeHolder?: string;
   defaultOptionIndex?: number;
   backgroundColor?: string;
@@ -19,12 +19,12 @@ export default function Select({
   backgroundColor = "bg-theme-primary",
 }: SelectProps) {
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
+  const [selectedOption, setSelectedOption] = useState<Option>();
 
   const handleOptionSelection = (option: Option) => {
     setSelectedOption(option);
     setShowOptions(false);
-    onSelect(option.value);
+    onSelect(option);
   };
 
   return (
@@ -37,12 +37,12 @@ export default function Select({
           <span className="block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis">
             {selectedOption.label}
           </span>
-        ) : defaultOptionIndex !== undefined ? (
+        ) : defaultOptionIndex ? (
           <span className="block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis">
             {options[defaultOptionIndex].label}
           </span>
         ) : (
-          <span className=" block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis  text-gray-500">
+          <span className=" block max-w-90 whitespace-nowrap overflow-hidden text-ellipsis ">
             {placeHolder}
           </span>
         )}
@@ -54,7 +54,7 @@ export default function Select({
       </div>
       {showOptions && (
         <div
-          className={` ${backgroundColor} absolute  top-full  w-full border border-gray-400 rounded  z-10`}
+          className={` ${backgroundColor}  bg-theme-secondary absolute  top-full  w-full border border-gray-400 rounded  z-10`}
         >
           {options.map((option, index) => {
             return (

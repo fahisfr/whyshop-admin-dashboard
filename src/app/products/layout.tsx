@@ -6,12 +6,12 @@ import { useState } from "react";
 import ProductsFilterBar, {
   Skeleton as ProductFilterSkeleton,
 } from "@/components/filterBar/ProductsFilterBar";
-import axios from "@/helper/axios";
-import { useQuery } from "react-query";
+import {  useQuery } from "@tanstack/react-query";
 import TableBodySkeleton from "@/components/skeleton/TableBody";
 import Link from "next/link";
 import Confirmeation from "@/components/Confirmeation";
-
+import Error from "@/components/Error";
+import { fetchProducts } from "../../helper/apis";
 const BACKEND_URL = process.env.BACKEND_URL;
 
 interface Props {
@@ -23,6 +23,7 @@ interface DeleteProduct {
 }
 
 export default function Page({ children }: Props) {
+
   const [products, setProducts] = useState<Product[]>([]);
   const [deleteProduct, setDeleteProduct] = useState<DeleteProduct>({
     confirm: false,
@@ -35,21 +36,16 @@ export default function Page({ children }: Props) {
       imageName: "",
     },
   });
-  const fetchProducts = async () => {
-    const { data } = await axios.get("/product/all-products");
-    return data;
-  };
 
-  const { isError, isLoading, data } = useQuery(["products"], fetchProducts, {
-    onSuccess: (result) => {
-      if (result.status === "ok") {
-        setProducts(result.products);
-      }
-    },
+  const { isError, isLoading, data, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
   });
 
   if (isLoading) {
     return <Skeleton />;
+  } else if (isError) {
+    return <Error error={error} />;
   }
 
   return (
@@ -138,7 +134,18 @@ export default function Page({ children }: Props) {
       {deleteProduct.confirm && (
         <Confirmeation
           onConfirm={() => {
-            alert("hello");
+            deleteProductNow(deleteProduct.productInfo._id);
+            setDeleteProduct({
+              confirm: false,
+              productInfo: {
+                name: "",
+                _id: "",
+                price: 0,
+                quantity: 0,
+                category: "",
+                imageName: "",
+              },
+            });
           }}
           title={`to delete ${deleteProduct.productInfo.name}`}
           confirmationText={`delete-${deleteProduct.productInfo.name}`}

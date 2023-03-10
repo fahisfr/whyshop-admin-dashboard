@@ -31,7 +31,10 @@ export default function UsersFilterBar({ users, setUsers }: Props) {
   return (
     <div className=" p-4 rounded flex w-full gap-4 bg-theme-primary">
       <div className=" max-w-lg">
-        <Select options={roles} onSelect={setFilterdRole} />
+        <Select
+          options={roles}
+          onSelect={(option) => setFilterdRole(option.value)}
+        />
       </div>
       <div className=" flex flex-grow   bg-theme-primary items-center  rounded-lg border border-gray-300 pr-2">
         <input

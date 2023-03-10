@@ -40,7 +40,9 @@ export default function ProductsFilterBar({
       <div className="w-32">
         <Select
           options={productsCatgeory}
-          onSelect={setSelecedCategory}
+          onSelect={(option) => {
+            setSelecedCategory(option.value);
+          }}
           defaultOptionIndex={0}
         />
       </div>
@@ -52,7 +54,7 @@ export default function ProductsFilterBar({
         />
         <AiOutlineSearch className="  text-2xl text-gray-500" />
       </div>
-      <Link href="/products/addProduct">
+      <Link href="/products/addproduct">
         <button className="bg-primary h-10 text-sm  rounded-md cursor-pointer  px-3 text-white  ">
           Add Product
         </button>

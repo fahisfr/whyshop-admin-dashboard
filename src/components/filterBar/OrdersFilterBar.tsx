@@ -35,7 +35,12 @@ export default function ProductsFilterBar({
   return (
     <div className="w-full p-3 flex gap-3 rounded bg-theme-primary  justify-evenly   shadow">
       <div className=" max-w-xl ">
-        <Select options={paymentTypes} onSelect={setSelecedPaymentType} />
+        <Select
+          options={paymentTypes}
+          onSelect={(option) => {
+            setSelecedPaymentType(option.value);
+          }}
+        />
       </div>
       <div className=" flex flex-grow  bg-theme-primary items-center  rounded-lg border border-gray-300 pr-2">
         <input

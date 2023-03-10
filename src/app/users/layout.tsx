@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import axios from "@/helper/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import UsersFilterBar, {
   Skeleton as UsersFilterBarSkeleton,
 } from "@/components/filterBar/UsersFilterBar";
@@ -10,6 +9,8 @@ import { User } from "@/helper/interface";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import Link from "next/link";
 import TableBody from "@/components/skeleton/TableBody";
+import Error from "@/components/Error";
+import { fetchUsers } from "@/helper/apis";
 
 interface Props {
   children: React.ReactNode;
@@ -17,17 +18,15 @@ interface Props {
 export default function page({ children }: Props) {
   const [users, setUsers] = useState<User[]>([]);
 
-  const fetchUsers = async () => {
-    const { data } = await axios.get("/admin/all-users");
-    return data;
-  };
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  });
 
-  const { isLoading, isError, data } = useQuery(["users"], fetchUsers);
-
-  if (isLoading ) {
+  if (isLoading) {
     return <Skeleton />;
   } else if (isError) {
-    return <div>{isError}</div>;
+    return <Error error={error} />;
   }
 
   return (

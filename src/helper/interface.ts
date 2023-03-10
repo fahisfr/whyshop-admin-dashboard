@@ -7,7 +7,6 @@ export interface State {
 }
 
 export interface User {
-
   _id: string;
   name: string;
   number: number;
@@ -43,7 +42,7 @@ export interface Order {
 }
 
 export interface Option {
-  value: string | number;
+  value: string ;
   label: string;
 }
 
@@ -51,3 +50,5 @@ export interface Image {
   file: File | null;
   preview: string;
 }
+
+

@@ -1,3 +1,5 @@
+import { useMutation } from "@tanstack/react-query";
+import assert from "assert";
 import React, { useState } from "react";
 
 interface Props {
@@ -14,10 +16,11 @@ export default function Confirmation({
   confirmationText,
 }: Props) {
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setBtnLoading(true);
-     onConfirm();
+   await onConfirm();
     setBtnLoading(false);
   };
 

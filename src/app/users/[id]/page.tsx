@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import axios from "@/helper/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import Select from "@/components/Select";
 import { useRouter } from "next/navigation";
-import { User } from "@/helper/interface";
 import { roles } from "@/helper/selectOptions";
 import { useAppContext } from "@/helper/context";
 import Confirmation from "@/components/Confirmeation";
+import { fetchOrderById } from "@/helper/apis";
+import { errorHandler } from "@/helper/errorHandler";
 interface PageProps {
   params: {
     id: string;
@@ -20,39 +21,37 @@ interface Conformation {
 }
 
 export default function Page({ params: { id } }: PageProps) {
-  const { triggerSidePopUpMessage } = useAppContext();
+  const { showErrorMessage, showSuccessMessage } = useAppContext();
   const router = useRouter();
   const [conformation, setConformation] = useState<Conformation>({
     trigger: false,
     role: "",
   });
-  const fetchUser = async () => {
-    const { data } = await axios.get(`/admin/user/${id}`);
-    return data;
+
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ["user", id],
+    queryFn: () => fetchOrderById(id),
+  });
+
+  const user = data.user;
+
+  const changeRole = async () => {
+    try {
+      const { data } = await axios.put("/admin/user/change-role", {
+        role: conformation.role,
+        id: user._id,
+      });
+      showSuccessMessage(data.message);
+    } catch (error) {
+      showErrorMessage(errorHandler(error).message);
+    }
   };
-
-  const { isLoading, isError, data } = useQuery(["user", id], fetchUser);
-
   if (isLoading) {
     return <div>Loading</div>;
   } else if (isError) {
     return <div>Error</div>;
   }
 
-  const user = data.user;
-  const changeRole = async () => {
-    
-    const { data } = await axios.put("/admin/user/change-role", {
-      role: user.role,
-      id: user._id,
-    });
-
-    if (data.status === "ok") {
-      triggerSidePopUpMessage(false, data.message);
-    } else if (data.status === "error") {
-      triggerSidePopUpMessage(true, data.message);
-    }
-  };
   return (
     <div className=" fixed inset-0 z-[101]  overflow-auto">
       <div className="  flex min-h-screen p-4 items-center justify-center ">

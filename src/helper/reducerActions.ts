@@ -9,6 +9,8 @@ export const reducerActionTypes = {
 };
 
 export default (state: State, { type, payload }: ReducerAction) => {
+  alert("i a m here")
+  
   switch (type) {
     case reducerActionTypes.TRIGGER_SIDE_POPUP_MESSAGE:
       return {

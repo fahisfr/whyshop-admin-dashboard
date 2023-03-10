@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "../../helper/axios";
 import { ordersDateRangeOptions } from "@/helper/selectOptions";
 import Select from "../Select";
-import { days as weekDays, months } from "@/helper/daysAndMonths";
+import { days as weekDays, months } from "@/helper/date-utils";
 
 interface DataSets {
   label: string;
@@ -42,13 +42,10 @@ export default function OrdersChart() {
     return data;
   };
 
-  const { isLoading, isError, data } = useQuery(
-    ["OrdersHistory", days],
-    fetchSales,
-    {
-      onSuccess: handleOnSuccess,
-    }
-  );
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ["OrdersHistory", days],
+    queryFn:fetchSales
+  });
 
   function handleOnSuccess(res: any) {
     const currentDate: Date = new Date();
@@ -135,7 +132,7 @@ export default function OrdersChart() {
           <Select
             options={ordersDateRangeOptions}
             defaultOptionIndex={0}
-            onSelect={(value) => setDays(value)}
+            onSelect={setDays}
           />
         </div>
       </div>

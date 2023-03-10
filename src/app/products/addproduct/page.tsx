@@ -4,10 +4,10 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Select from "@/components/Select";
 import { BiImageAdd } from "react-icons/bi";
-import axios from "axios";
+import axios from "../../../helper/axios";
 import { Image as Img } from "@/helper/interface";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 const options = [
   { value: "Vegetable", label: "Vegetable" },
   { value: "fruits", label: "Fruits" },
@@ -16,9 +16,9 @@ const options = [
 
 export default function Page() {
   const router = useRouter();
+
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const [btnLoading, setLoading] = useState<boolean>(false);
-  const [newProductInfo, setNewProductInfo] = useState({
+  const [product, setProduct] = useState({
     name: "",
     category: "",
     price: 0,
@@ -29,19 +29,26 @@ export default function Page() {
     preview: "",
   });
 
-  const addProduct = async (e) => {
-    e.preventDefault();
-    setLoading(!btnLoading);
-    return false;
-    const { data } = await axios.post("/product/add-product");
-    if (data.status === "ok") {
-    } else if (data.status === "error") {
+  const addProductFn = async () => {
+    const formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("category", product.category);
+    formData.append("price", product.price.toString());
+    formData.append("quantity", product.quantity.toString());
+
+    if (newImage.file) {
+      formData.append("image", newImage.file);
     }
+    const { data } = await axios.post("/admin/product/add-product", formData);
+
+    return data;
   };
 
+  const addProduct = useMutation({ mutationFn: addProductFn });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewProductInfo({
-      ...newProductInfo,
+    setProduct({
+      ...product,
       [e.target.name]: e.target.value,
     });
   };
@@ -62,10 +69,6 @@ export default function Page() {
     reader.readAsDataURL(file);
   };
 
-  const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <div className="fixed  inset-0 z-50 overflow-auto  ">
       <div className=" flex min-h-full items-center justify-center p-4">
@@ -74,15 +77,9 @@ export default function Page() {
           onClick={() => router.push("/products")}
         ></div>
         <div className=" w-full max-w-[50rem] bg-white dark:bg-theme-secondary  relative  p-8 rounded-lg flex gap-5  -sm:flex-col">
-          <div
-            onDrop={handleOnDrop}
-            onDragOver={(e) => {
-              console.log("file on top");
-            }}
-            className="w-80 flex  rounded-md -sm:w-full"
-          >
+          <div className="w-80 flex  rounded-md -sm:w-full">
             <div
-              className="w-full h-full border-dotted border-2  cursor-pointer flex items-center justify-center  border-gray-400 text-gray-500  -sm:h-60"
+              className="w-full h-full flex items-center justify-center  relative  border-dotted border-2  cursor-pointer  border-gray-400 text-gray-500  -sm:h-60"
               onClick={() => {
                 imageInputRef.current?.click();
               }}
@@ -108,7 +105,7 @@ export default function Page() {
               <label className="text-base font-medium">Name</label>
               <input
                 className="pt-input"
-                value={newProductInfo.name}
+                value={product.name}
                 name="name"
                 onChange={handleChange}
               />
@@ -117,7 +114,9 @@ export default function Page() {
               <label className="text-base font-medium">Category</label>
               <Select
                 options={options}
-                onSelect={(value: string) => {}}
+                onSelect={(option) => {
+                  setProduct({ ...product, category: option.value });
+                }}
                 placeHolder="Select Category..."
                 backgroundColor="bg-theme-secondary"
               />
@@ -126,7 +125,7 @@ export default function Page() {
               <label className="text-base font-medium">Price</label>
               <input
                 className="pt-input"
-                value={newProductInfo.price}
+                value={product.price}
                 name="price"
                 type="number"
                 onChange={handleChange}
@@ -139,12 +138,12 @@ export default function Page() {
                 name="quantity"
                 type="number"
                 onChange={handleChange}
-                value={newProductInfo.quantity}
+                value={product.quantity}
               />
             </div>
-            <div className={`${btnLoading && "btn-loading"}`}>
+            <div className={`${addProduct.isLoading && "btn-loading"}`}>
               <button
-                onClick={addProduct}
+                onClick={() => addProduct.mutate()}
                 className={` btn rounded-md px-4 py-2 w-full h-10 bg-primary text-white font-medium outline-none `}
               >
                 <span className="btn-text ">Add</span>

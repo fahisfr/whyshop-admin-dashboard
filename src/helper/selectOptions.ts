@@ -1,14 +1,11 @@
 import { Option } from "./interface";
 export const roles: Option[] = [
-  {
-    label: "User",
-    value: "user",
-  },
-  {
-    label: "Admin",
-    value: "admin",
-  },
+  { label: "SuperAdmin", value: "superAdmin" },
+  { label: "Admin", value: "admin" },
+  { label: "employee", value: "employee" },
+  { label: "User", value: "user" },
 ];
+
 export const productsCatgeory: Option[] = [
   { value: "all", label: "All Category" },
   { value: "vegetables", label: "Vegetables" },

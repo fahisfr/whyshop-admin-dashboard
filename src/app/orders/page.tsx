@@ -3,35 +3,30 @@ import React, { useState } from "react";
 import { Order } from "@/helper/interface";
 import Image from "next/image";
 import { imageUrl } from "@/helper/axios";
-import getDate from "@/helper/getDate";
+import { getDate } from "@/helper/date-utils";
 import Link from "next/link";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsFillCheckCircleFill, BsXCircleFill } from "react-icons/bs";
-import axios from "@/helper/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import TableBody from "@/components/skeleton/TableBody";
 import OrdersFilterBar, {
   Skeleton as OrdersFilterBarSkeleton,
 } from "@/components/filterBar/OrdersFilterBar";
+import Error from "@/components/Error";
+import { fetchOrders } from "@/helper/apis";
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
 
-  const fetchOrders = async () => {
-    const { data } = await axios("/order/all-orders");
-    return data;
-  };
-
-  const { isError, isLoading, data } = useQuery("orders", fetchOrders, {
-    onSuccess: (result) => {
-      if (result.status === "ok") {
-        setOrders(result.orders);
-      }
-    },
+  const { isError, isLoading, data, error } = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrders,
   });
 
   if (isLoading) {
     return <Skeleton />;
+  } else if (isError) {
+    return <Error error={error} />;
   }
 
   return (
@@ -106,9 +101,7 @@ export default function Orders() {
                     </td>
                     <td>
                       <div className="px-2 py-1 inline-block rounded-[6px] text-white   bg-green-500">
-                        <span className="capitalize">
-                          {order.orderStatus}
-                        </span>
+                        <span className="capitalize">{order.orderStatus}</span>
                       </div>
                     </td>
                     <td>

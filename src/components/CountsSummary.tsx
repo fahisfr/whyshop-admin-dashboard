@@ -43,7 +43,10 @@ export function CountsSummarySkeleton() {
     <div className="w-full flex gap-5 ">
       {new Array(4).fill(0).map((item: number, index: number) => {
         return (
-          <div className="w-36  flex-1 h-20  grid grid-rows-2 grid-flow-col  animate-pulse bg-primary p-4 rounded  items-center gap-1"></div>
+          <div
+            key={index}
+            className="w-36  flex-1 h-20  grid grid-rows-2 grid-flow-col  animate-pulse bg-primary p-4 rounded  items-center gap-1"
+          ></div>
         );
       })}
     </div>

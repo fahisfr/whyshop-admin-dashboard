@@ -5,6 +5,7 @@ export const imageUrl = `${baseUrl}/images`;
 
 const instance = axios.create({
   baseURL: `${baseUrl}/api`,
+  timeout:3333
 });
 
 instance.interceptors.request.use(
@@ -17,6 +18,7 @@ instance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -30,12 +32,8 @@ instance.interceptors.response.use(
         return instance.request(prevRequest);
       }
       localStorage.removeItem("access_token");
-      return Promise.reject({
-        status: "error",
-        message: "failed to refresh access token",
-      });
     }
-    return Promise.reject({ status: "error", message: error.message });
+    return Promise.reject(error);
   }
 );
 

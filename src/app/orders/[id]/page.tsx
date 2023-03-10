@@ -2,9 +2,9 @@
 import { imageUrl } from "@/helper/axios";
 import React, { useState } from "react";
 import Image from "next/image";
-import getDate from "@/helper/getDate";
+import { getDate } from "@/helper/date-utils";
 import axios from "@/helper/axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import TableBodySkeleton from "@/components/skeleton/TableBody";
 import { Order, Product } from "@/helper/interface";
 import { BiPackage } from "react-icons/bi";
@@ -12,6 +12,9 @@ import { BsBagCheck } from "react-icons/bs";
 import { RiEBike2Fill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
 import { useAppContext } from "@/helper/context";
+import { fetchOrderById } from "@/helper/apis";
+import Error from "@/components/Error";
+
 interface PageProps {
   params: {
     id: string;
@@ -36,22 +39,15 @@ const orderStatus = [
   },
 ];
 export default function Page({ params: { id } }: PageProps) {
-  const { triggerSidePopUpMessage } = useAppContext();
+  const {} = useAppContext();
   const [nextStepBtnLoading, setNextStepBtnLoading] = useState<boolean>(false);
   const [previousBtnLoading, setPreviousBtnLoading] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const fetchOrder = async () => {
-    const { data } = await axios(`/order/${id}`);
-    return data;
-  };
-  const { isError, isLoading, data, error } = useQuery(
-    ["order", id],
-    fetchOrder
-  );
 
-  if (isLoading) {
-    return <Skeleton />;
-  }
+  const { isError, isLoading, data, error } = useQuery({
+    queryKey: ["order", id],
+    queryFn: () => fetchOrderById(id),
+  });
+
   const order: Order = data.order;
   const orderStatusIndex = orderStatus.findIndex(
     (status) => order.orderStatus === status.value
@@ -61,28 +57,26 @@ export default function Page({ params: { id } }: PageProps) {
     orderStatusIndex: number,
     setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    if (orderStatus.length > orderStatusIndex) {
-      setBtnLoading(true);
-      const newOrderStatus = orderStatus[orderStatusIndex].value;
-      const { data } = await axios.put("/admin/order/change-order-status", {
-        id: order._id,
-        orderStatus: newOrderStatus,
-      });
-      setBtnLoading(false);
-      if (data.status === "ok") {
-        const updatedOrderInfo = order;
-        order.orderStatus = newOrderStatus;
-        queryClient.setQueryData(["order", id], {
-          status: "ok",
-          order: updatedOrderInfo,
+    setBtnLoading(true);
+    try {
+      if (orderStatus.length > orderStatusIndex) {
+        setBtnLoading(true);
+        const newOrderStatus = orderStatus[orderStatusIndex].value;
+        const { data } = await axios.put("/admin/order/change-order-status", {
+          id: order._id,
+          orderStatus: newOrderStatus,
         });
-        triggerSidePopUpMessage(false, data.message);
-      } else if (data.status === "error") {
-        triggerSidePopUpMessage(true, data.message);
-      }
-    }
-  };
 
+        order.orderStatus = newOrderStatus;
+      }
+    } catch (error) {}
+    setBtnLoading(false);
+  };
+  if (isLoading) {
+    return <Skeleton />;
+  } else if (isError) {
+    return <Error error={error} />;
+  }
   return (
     <div className="w-ful h-auto flex gap-4  -lg:items-center -lg:justify-center  -lg:flex-col lg:h-full   ">
       <div className=" w-full h-full mb-auto  p-1 pt-0   overflow-auto shadow  -lg:max-h-[25rem] ">
